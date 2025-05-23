@@ -1,5 +1,5 @@
 {
-  "name": "moderntoasts-demo",
+  "name": "ModernToasts-Demo",
   "version": "1.0.0",
   "description": "A comprehensive showcase of modern stacked overlay toast notification implementations using different technologies and approaches",
   "scripts": {
@@ -25,12 +25,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sukarth/ModernToasts-demo.git"
+    "url": "https://github.com/sukarth/ModernToasts-Demo.git"
   },
   "bugs": {
-    "url": "https://github.com/sukarth/ModernToasts-demo/issues"
+    "url": "https://github.com/sukarth/ModernToasts-Demo/issues"
   },
-  "homepage": "https://github.com/sukarth/ModernToasts-demo#readme",
+  "homepage": "https://github.com/sukarth/ModernToasts-Demo#readme",
   "engines": {
     "node": ">=16.0.0"
   }

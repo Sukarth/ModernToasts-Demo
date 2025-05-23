@@ -1,4 +1,4 @@
-# ModernToasts-demo
+# ModernToasts-Demo
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -8,10 +8,10 @@ A comprehensive showcase of modern stacked overlay toast notification implementa
 
 | Implementation                | Technology Stack          | Features                             | Live Demo | Source Code |
 | ----------------------------- | ------------------------- | ------------------------------------ | --------- | ----------- |
-| **Pure Vanilla JS/CSS** | HTML + CSS + JavaScript   | Pure implementation, no dependencies | [🚀 Live Demo](https://sukarth.github.io/ModernToasts-demo/demos/pure-vanilla-css-js/) | [📁 Source](./demos/pure-vanilla-css-js/) |
-| **React + Vanilla CSS** | React + Custom CSS        | Component-based with custom styling  | [🚀 Live Demo](https://sukarth.github.io/ModernToasts-demo/demos/react-vanilla-css/) | [📁 Source](./demos/react-vanilla-css/) |
-| **React + Tailwind**    | React + Tailwind CSS      | Utility-first CSS framework          | [🚀 Live Demo](https://sukarth.github.io/ModernToasts-demo/demos/react-tailwind-css/) | [📁 Source](./demos/react-tailwind-css/) |
-| **React + Vite**        | React + TypeScript + Vite | Type-safe development build          | [🚀 Live Demo](https://sukarth.github.io/ModernToasts-demo/demos/react-vite/dist/) | [📁 Source](./demos/react-vite/) |
+| **Pure Vanilla JS/CSS** | HTML + CSS + JavaScript   | Pure implementation, no dependencies | [🚀 Live Demo](https://sukarth.github.io/ModernToasts-Demo/demos/pure-vanilla-css-js/) | [📁 Source](./demos/pure-vanilla-css-js/) |
+| **React + Vanilla CSS** | React + Custom CSS        | Component-based with custom styling  | [🚀 Live Demo](https://sukarth.github.io/ModernToasts-Demo/demos/react-vanilla-css/) | [📁 Source](./demos/react-vanilla-css/) |
+| **React + Tailwind**    | React + Tailwind CSS      | Utility-first CSS framework          | [🚀 Live Demo](https://sukarth.github.io/ModernToasts-Demo/demos/react-tailwind-css/) | [📁 Source](./demos/react-tailwind-css/) |
+| **React + Vite**        | React + TypeScript + Vite | Type-safe development build          | [🚀 Live Demo](https://sukarth.github.io/ModernToasts-Demo/demos/react-vite/dist/) | [📁 Source](./demos/react-vite/) |
 
 ## ✨ Features
 
@@ -39,7 +39,7 @@ A comprehensive showcase of modern stacked overlay toast notification implementa
 ## 🏗 Project Structure
 
 ```
-ModernToasts-demo/
+ModernToasts-Demo/
 ├── demos/
 │   ├── pure-vanilla-css-js/  # Pure HTML/CSS/JS implementation
 │   ├── react-vanilla-css/    # React with custom CSS

@@ -1,6 +1,6 @@
 # API Reference
 
-Complete API documentation for the ModernToasts-demo implementations.
+Complete API documentation for the ModernToasts-Demo implementations.
 
 ## 🎯 Core API
 
