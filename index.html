@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts Demo - Stacked Toast Notifications</title>
+    <meta name="description" content="A comprehensive showcase of modern stacked overlay toast notification implementations using different technologies and approaches.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .demo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            justify-content: center;
+        }
+        
+        .demo-card {
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 320px;
+        }
+        
+        @media (min-width: 768px) {
+            .demo-card {
+                width: calc(50% - 1rem);
+                max-width: 400px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .demo-card {
+                width: calc(33.333% - 1.33rem);
+                max-width: 350px;
+            }
+        }
+        
+        .demo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            /* background: linear-gradient(90deg, #667eea, #764ba2); */
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .demo-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge.no-build {
+            background: #10b981;
+            color: white;
+        }
+        
+        .badge.built {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .demo-description {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .demo-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+        
+        .tech-tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .demo-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .demo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            flex: 1;
+            justify-content: center;
+            min-width: 120px;
+        }
+        
+        .demo-link.primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .demo-link.primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .demo-link.secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .demo-link.secondary:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+        
+        .docs-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .docs-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            text-align: center;
+        }
+        
+        .docs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        
+        .doc-card {
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        @media (min-width: 768px) {
+            .doc-card {
+                width: calc(50% - 0.75rem);
+                max-width: 350px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .doc-card {
+                width: calc(33.333% - 1rem);
+                max-width: 320px;
+            }
+        }
+        
+        
+        .doc-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .doc-card:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
+        
+        .doc-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #1e293b;
+        }
+        
+        .doc-card p {
+            color: #64748b;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .doc-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .doc-link:hover {
+            color: #5a67d8;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 3rem;
+        }
+        
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .demo-links {
+                flex-direction: column;
+            }
+            
+            .demo-link {
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍞 ModernToasts Demo</h1>
+            <p class="subtitle">A comprehensive showcase of modern stacked overlay toast notification implementations</p>
+        </div>
+        
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3 class="demo-title">
+                    Pure Vanilla JS/CSS 
+                    <span class="badge no-build">No Build</span>
+                </h3>
+                <p class="demo-description">Pure implementation with no dependencies. Perfect for learning and lightweight projects.</p>
+                <div class="demo-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                <div class="demo-links">
+                    <a href="./demos/pure-vanilla-css-js/" class="demo-link primary">🚀 Live Demo</a>
+                    <a href="https://github.com/sukarth/ModernToasts-Demo/tree/main/demos/pure-vanilla-css-js" class="demo-link secondary">📁 Source</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <h3 class="demo-title">
+                    React + Vanilla CSS 
+                    <span class="badge no-build">No Build</span>
+                </h3>
+                <p class="demo-description">React components with custom CSS. Component-based architecture with custom styling.</p>
+                <div class="demo-tech">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">ES Modules</span>
+                </div>
+                <div class="demo-links">
+                    <a href="./demos/react-vanilla-css/" class="demo-link primary">🚀 Live Demo</a>
+                    <a href="https://github.com/sukarth/ModernToasts-Demo/tree/main/demos/react-vanilla-css" class="demo-link secondary">📁 Source</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <h3 class="demo-title">
+                    React + Tailwind CSS 
+                    <span class="badge no-build">No Build</span>
+                </h3>
+                <p class="demo-description">React with Tailwind CSS. Utility-first CSS framework for beautiful, rapid development.</p>
+                <div class="demo-tech">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Tailwind CSS</span>
+                    <span class="tech-tag">CDN</span>
+                </div>
+                <div class="demo-links">
+                    <a href="./demos/react-tailwind-css/" class="demo-link primary">🚀 Live Demo</a>
+                    <a href="https://github.com/sukarth/ModernToasts-Demo/tree/main/demos/react-tailwind-css" class="demo-link secondary">📁 Source</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <h3 class="demo-title">
+                    React + Vite + TypeScript 
+                    <span class="badge built">Built</span>
+                </h3>
+                <p class="demo-description">Modern development setup with React, TypeScript, Vite, Tailwind CSS and optimized builds.</p>
+                <div class="demo-tech">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Vite</span>
+                    <span class="tech-tag">Tailwind</span>
+                </div>
+                <div class="demo-links">
+                    <a href="./demos/react-vite/dist/" class="demo-link primary">🚀 Live Demo</a>
+                    <a href="https://github.com/sukarth/ModernToasts-Demo/tree/main/demos/react-vite" class="demo-link secondary">📁 Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="docs-section">
+            <h2 class="docs-title">📚 Documentation</h2>
+            <div class="docs-grid">
+                <div class="doc-card">
+                    <h3>🔧 API Reference</h3>
+                    <p>Complete API documentation for all implementations including function signatures, configuration options, and usage examples.</p>
+                    <a href="https://github.com/sukarth/ModernToasts-Demo/blob/main/docs/api-reference.md" class="doc-link">
+                        View Documentation →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <h3>⚖️ Implementation Comparison</h3>
+                    <p>Detailed comparison of different approaches including performance metrics, bundle sizes, and use case recommendations.</p>
+                    <a href="https://github.com/sukarth/ModernToasts-Demo/blob/main/docs/implementation-comparison.md" class="doc-link">
+                        View Comparison →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <h3>🏗️ Build Instructions</h3>
+                    <p>Comprehensive setup and deployment guide including local development, production builds, and GitHub Pages deployment.</p>
+                    <a href="https://github.com/sukarth/ModernToasts-Demo/blob/main/docs/build-instructions.md" class="doc-link">
+                        View Instructions →
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>Made with ❤️ by Sukarth Acharya &nbsp;&nbsp;|&nbsp;&nbsp; <a href="https://github.com/sukarth/ModernToasts-Demo">View on GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
