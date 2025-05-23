@@ -33,7 +33,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd demos/react-vite
-        npm ci
+        npm install
         
     - name: Build React + Vite demo
       run: |
