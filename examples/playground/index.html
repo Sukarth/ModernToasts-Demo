@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts - Interactive Playground</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f1f5f9;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #38bdf8, #3b82f6, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 0.5rem;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .playground-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .playground-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(12px);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #e2e8f0;
+            text-align: center;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-success {
+            background-color: #22c55e;
+        }
+
+        .btn-success:hover {
+            background-color: #16a34a;
+        }
+
+        .btn-error {
+            background-color: #ef4444;
+        }
+
+        .btn-error:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-info {
+            background-color: #3b82f6;
+        }
+
+        .btn-info:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-warning {
+            background-color: #eab308;
+            color: #000;
+        }
+
+        .btn-warning:hover {
+            background-color: #ca8a04;
+        }
+
+        .config-section {
+            margin-bottom: 2rem;
+        }
+
+        .config-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #e2e8f0;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .config-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #475569;
+            background: rgba(51, 65, 85, 0.5);
+            color: #e2e8f0;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .config-btn:hover {
+            background: rgba(71, 85, 105, 0.7);
+            border-color: #64748b;
+        }
+
+        .config-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .custom-toast-section {
+            grid-column: 1 / -1;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(51, 65, 85, 0.5);
+            border: 1px solid #475569;
+            border-radius: 0.375rem;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .color-input {
+            width: 100%;
+            height: 3rem;
+            border: 1px solid #475569;
+            border-radius: 0.375rem;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkbox {
+            width: 1rem;
+            height: 1rem;
+            accent-color: #3b82f6;
+        }
+
+        .demo-controls {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        .footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🍞 ModernToasts Playground</h1>
+            <p class="subtitle">
+                Interactive demo showcasing all features of ModernToasts. Customize every aspect of your toast
+                notifications!
+            </p>
+            <div class="nav-links">
+                <a href="../../" class="nav-link">← Back to Home</a>
+                <a href="https://github.com/sukarth/ModernToasts" class="nav-link">📚 Documentation</a>
+                <a href="https://www.npmjs.com/package/modern-toasts" class="nav-link">📦 NPM Package</a>
+            </div>
+        </div>
+
+        <div class="playground-grid">
+            <!-- Quick Demo Section -->
+            <div class="section">
+                <h2 class="section-title">🚀 Quick Demo</h2>
+                <div class="button-grid">
+                    <button class="btn btn-success" onclick="showSuccess()">
+                        ✅ Success
+                    </button>
+                    <button class="btn btn-error" onclick="showError()">
+                        ❌ Error
+                    </button>
+                    <button class="btn btn-info" onclick="showInfo()">
+                        ℹ️ Info
+                    </button>
+                    <button class="btn btn-warning" onclick="showWarning()">
+                        ⚠️ Warning
+                    </button>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Test Features</h3>
+                    <div class="config-grid">
+                        <button class="config-btn" onclick="testCustomStyling()">Custom Style</button>
+                        <button class="config-btn" onclick="testLongDuration()">Long Duration</button>
+                        <button class="config-btn" onclick="testNoAutoClose()">No Auto Close</button>
+                        <button class="config-btn" onclick="testMultipleToasts()">Multiple</button>
+                        <button class="config-btn" onclick="testAllDirections()">All Animations</button>
+                    </div>
+                </div>
+
+                <div class="demo-controls">
+                    <button class="btn" style="background: #6b7280;" onclick="dismissAll()">
+                        🗑️ Dismiss All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Configuration Section -->
+            <div class="section">
+                <h2 class="section-title">⚙️ Configuration</h2>
+
+                <div class="config-section">
+                    <h3 class="config-title">Position</h3>
+                    <div class="config-grid">
+                        <button class="config-btn" onclick="setPosition('top-left')">Top Left</button>
+                        <button class="config-btn" onclick="setPosition('top-center')">Top Center</button>
+                        <button class="config-btn" onclick="setPosition('top-right')">Top Right</button>
+                        <button class="config-btn" onclick="setPosition('bottom-left')">Bottom Left</button>
+                        <button class="config-btn" onclick="setPosition('bottom-center')">Bottom Center</button>
+                        <button class="config-btn active" onclick="setPosition('bottom-right')">Bottom Right</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Animation Direction</h3>
+                    <div class="config-grid">
+                        <button class="config-btn active" onclick="setAnimationDirection('left-to-right')">Left →
+                            Right</button>
+                        <button class="config-btn" onclick="setAnimationDirection('right-to-left')">Right →
+                            Left</button>
+                        <button class="config-btn" onclick="setAnimationDirection('top-to-bottom')">Top →
+                            Bottom</button>
+                        <button class="config-btn" onclick="setAnimationDirection('bottom-to-top')">Bottom →
+                            Top</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Stack Settings</h3>
+                    <div class="config-grid">
+                        <button class="config-btn" onclick="setMaxVisible(1)">Max 1</button>
+                        <button class="config-btn" onclick="setMaxVisible(2)">Max 2</button>
+                        <button class="config-btn active" onclick="setMaxVisible(3)">Max 3</button>
+                        <button class="config-btn" onclick="setMaxVisible(4)">Max 4</button>
+                        <button class="config-btn" onclick="setMaxVisible(5)">Max 5</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Animations</h3>
+                    <div class="config-grid">
+                        <button class="config-btn active" onclick="toggleBorderAnimation()">Border: ON</button>
+                        <button class="config-btn active" onclick="toggleFillAnimation()">Fill: ON</button>
+                        <button class="config-btn active" onclick="toggleBackgroundPause()">Pause All: ON</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Advanced Stack Settings</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.8rem; color: #94a3b8;">Stack Offset Y:</label>
+                        <input type="range" id="stackOffsetY" min="0" max="20" value="10"
+                               style="accent-color: #3b82f6;" onchange="updateStackOffsetY(this.value)">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.8rem; color: #94a3b8;">Stack Offset X:</label>
+                        <input type="range" id="stackOffsetX" min="0" max="10" value="4"
+                               style="accent-color: #3b82f6;" onchange="updateStackOffsetX(this.value)">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.8rem; color: #94a3b8;">Scale Decrement:</label>
+                        <input type="range" id="scaleDecrement" min="0" max="0.1" step="0.01" value="0.05"
+                               style="accent-color: #3b82f6;" onchange="updateScaleDecrement(this.value)">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <label style="font-size: 0.8rem; color: #94a3b8;">Opacity Decrement:</label>
+                        <input type="range" id="opacityDecrement" min="0" max="0.5" step="0.05" value="0.2"
+                               style="accent-color: #3b82f6;" onchange="updateOpacityDecrement(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Toast Builder -->
+            <div class="section custom-toast-section">
+                <h2 class="section-title">🎨 Custom Toast Builder</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Message Text</label>
+                        <input type="text" id="customMessage" class="form-input" value="This is a custom toast message!"
+                            placeholder="Enter your message...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Toast Type</label>
+                        <select id="customType" class="form-select">
+                            <option value="success">Success</option>
+                            <option value="error">Error</option>
+                            <option value="info">Info</option>
+                            <option value="warning">Warning</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Duration (ms) - 0 for no auto-dismiss</label>
+                        <input type="number" id="customDuration" class="form-input" value="4000" min="0" max="30000"
+                            step="500">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Custom Icon (HTML/Emoji)</label>
+                        <input type="text" id="customIcon" class="form-input" placeholder="🚀 or <svg>...</svg>">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Background Color</label>
+                        <input type="color" id="customBgColor" class="color-input" value="#1f2937">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Text Color</label>
+                        <input type="color" id="customTextColor" class="color-input" value="#f9fafb">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Border Color</label>
+                        <input type="color" id="customBorderColor" class="color-input" value="#10b981">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Animation Direction</label>
+                        <select id="customAnimationDirection" class="form-select">
+                            <option value="left-to-right">Left to Right</option>
+                            <option value="right-to-left">Right to Left</option>
+                            <option value="top-to-bottom">Top to Bottom</option>
+                            <option value="bottom-to-top">Bottom to Top</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Options</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="customShowClose" class="checkbox" checked>
+                            <label for="customShowClose" class="form-label">Show close button</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="customPauseOnHover" class="checkbox" checked>
+                            <label for="customPauseOnHover" class="form-label">Pause on hover</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="customPauseBackground" class="checkbox" checked>
+                            <label for="customPauseBackground" class="form-label">Pause background toasts</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CSS Class Name</label>
+                        <input type="text" id="customClassName" class="form-input" placeholder="my-custom-toast">
+                    </div>
+                </div>
+
+                <div class="demo-controls">
+                    <button class="btn btn-info" onclick="showCustomToast()"
+                        style="padding: 1rem 2rem; font-size: 1rem;">
+                        🎨 Show Custom Toast
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                Powered by <a href="https://www.npmjs.com/package/modern-toasts">ModernToasts</a> •
+                <a href="https://github.com/sukarth/ModernToasts">View on GitHub</a> •
+                Made with ❤️ by <a href="https://github.com/sukarth">Sukarth Acharya</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Include ModernToasts library from CDN -->
+    <script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js"></script>
+
+    <script>
+        // Access the toast API from the global ModernToasts object
+        const { toast } = window.ModernToasts;
+
+        // Default animation directions based on position
+        const defaultAnimations = {
+            'top-left': 'right-to-left',
+            'bottom-left': 'right-to-left',
+            'top-right': 'left-to-right',
+            'bottom-right': 'left-to-right',
+            'top-center': 'bottom-to-top',
+            'bottom-center': 'top-to-bottom'
+        };
+
+        // State tracking
+        let currentConfig = {
+            position: 'bottom-right',
+            maxVisibleStackToasts: 3,
+            defaultDuration: 4000,
+            animationDirection: defaultAnimations['bottom-right'],
+            enableBorderAnimation: true,
+            enableFillAnimation: true,
+            pauseBackgroundToastsOnHover: true,
+            animationDuration: 350,
+            // Advanced stack settings
+            stackOffsetY: 10,
+            stackOffsetX: 4,
+            scaleDecrementPerLevel: 0.05,
+            opacityDecrementPerLevel: 0.2
+        };
+
+        // Configure initial settings
+        toast.configure(currentConfig);
+
+        // Quick demo functions
+        function showSuccess() {
+            toast.success('Wohoo! Operation completed successfully!', {
+                autoDismiss: 5000
+            });
+        }
+
+        function showError() {
+            toast.error('Something went wrong. Please try again.', {
+                autoDismiss: 6000
+            });
+        }
+
+        function showInfo() {
+            toast.info('Here is some useful information for you.', {
+                autoDismiss: 4000
+            });
+        }
+
+        function showWarning() {
+            toast.warning('Please be aware of potential issues.', {
+                autoDismiss: 5000
+            });
+        }
+
+        // Configuration functions
+        function setPosition(position) {
+            updateActiveButton(event.target, 'Position');
+            currentConfig.position = position;
+
+            // Set default animation direction for the new position
+            const defaultAnimation = defaultAnimations[position];
+            currentConfig.animationDirection = defaultAnimation;
+
+            // Update the animation direction buttons to show the new default
+            updateAnimationDirectionButtons(defaultAnimation);
+
+            toast.configure({ position });
+        }
+
+        function setAnimationDirection(direction) {
+            updateActiveButton(event.target, 'Animation Direction');
+            currentConfig.animationDirection = direction;
+            toast.configure({ animationDirection: direction });
+        }
+
+        function setMaxVisible(max) {
+            updateActiveButton(event.target, 'Stack Settings');
+            currentConfig.maxVisibleStackToasts = max;
+            toast.configure({ maxVisibleStackToasts: max });
+        }
+
+        function toggleBorderAnimation() {
+            currentConfig.enableBorderAnimation = !currentConfig.enableBorderAnimation;
+            event.target.textContent = `Border: ${currentConfig.enableBorderAnimation ? 'ON' : 'OFF'}`;
+            event.target.classList.toggle('active');
+            toast.configure({ enableBorderAnimation: currentConfig.enableBorderAnimation });
+        }
+
+        function toggleFillAnimation() {
+            currentConfig.enableFillAnimation = !currentConfig.enableFillAnimation;
+            event.target.textContent = `Fill: ${currentConfig.enableFillAnimation ? 'ON' : 'OFF'}`;
+            event.target.classList.toggle('active');
+            toast.configure({ enableFillAnimation: currentConfig.enableFillAnimation });
+        }
+
+        function toggleBackgroundPause() {
+            currentConfig.pauseBackgroundToastsOnHover = !currentConfig.pauseBackgroundToastsOnHover;
+            event.target.textContent = `Pause All: ${currentConfig.pauseBackgroundToastsOnHover ? 'ON' : 'OFF'}`;
+            event.target.classList.toggle('active');
+            toast.configure({ pauseBackgroundToastsOnHover: currentConfig.pauseBackgroundToastsOnHover });
+        }
+
+        // Advanced configuration functions
+        function updateStackOffsetY(value) {
+            currentConfig.stackOffsetY = parseInt(value);
+            toast.configure({ stackOffsetY: currentConfig.stackOffsetY });
+        }
+
+        function updateStackOffsetX(value) {
+            currentConfig.stackOffsetX = parseInt(value);
+            toast.configure({ stackOffsetX: currentConfig.stackOffsetX });
+        }
+
+        function updateScaleDecrement(value) {
+            currentConfig.scaleDecrementPerLevel = parseFloat(value);
+            toast.configure({ scaleDecrementPerLevel: currentConfig.scaleDecrementPerLevel });
+        }
+
+        function updateOpacityDecrement(value) {
+            currentConfig.opacityDecrementPerLevel = parseFloat(value);
+            toast.configure({ opacityDecrementPerLevel: currentConfig.opacityDecrementPerLevel });
+        }
+
+        // Test functions
+        function testCustomStyling() {
+            toast.success('🎨 Custom styled toast with dark theme!', {
+                backgroundColor: '#0f172a',
+                textColor: '#f1f5f9',
+                borderColor: '#22d3ee',
+                autoDismiss: 6000
+            });
+        }
+
+        function testLongDuration() {
+            toast.info('⏰ This toast will stay for 10 seconds', {
+                autoDismiss: 10000
+            });
+        }
+
+        function testNoAutoClose() {
+            toast.warning('📌 This toast won\'t auto-close. Click X to dismiss.', {
+                autoDismiss: 0
+            });
+        }
+
+        function testMultipleToasts() {
+            const messages = [
+                '🥇 First toast',
+                '🥈 Second toast',
+                '🥉 Third toast',
+                '🏅 Fourth toast',
+                '⭐ Fifth toast'
+            ];
+            const types = ['success', 'error', 'info', 'warning', 'success'];
+
+            messages.forEach((message, index) => {
+                setTimeout(() => {
+                    toast[types[index]](message, { autoDismiss: 3000 });
+                }, index * 500);
+            });
+        }
+
+        function testAllDirections() {
+            const directions = ['left-to-right', 'right-to-left', 'top-to-bottom', 'bottom-to-top'];
+            const messages = [
+                '← Left to Right animation',
+                'Right to Left animation →',
+                '↑ Top to Bottom animation',
+                '↓ Bottom to Top animation'
+            ];
+
+            directions.forEach((direction, index) => {
+                setTimeout(() => {
+                    toast.info(messages[index], {
+                        animationDirection: direction,
+                        autoDismiss: 4000
+                    });
+                }, index * 1000);
+            });
+        }
+
+        // Custom toast function
+        function showCustomToast() {
+            const message = document.getElementById('customMessage').value || 'Custom toast message';
+            const type = document.getElementById('customType').value;
+            const duration = parseInt(document.getElementById('customDuration').value);
+            const icon = document.getElementById('customIcon').value;
+            const bgColor = document.getElementById('customBgColor').value;
+            const textColor = document.getElementById('customTextColor').value;
+            const borderColor = document.getElementById('customBorderColor').value;
+            const animationDirection = document.getElementById('customAnimationDirection').value;
+            const showCloseButton = document.getElementById('customShowClose').checked;
+            const pauseOnHover = document.getElementById('customPauseOnHover').checked;
+            const pauseBackground = document.getElementById('customPauseBackground').checked;
+            const className = document.getElementById('customClassName').value;
+
+            // Apply background pause setting globally for this demo
+            toast.configure({ pauseBackgroundToastsOnHover: pauseBackground });
+
+            const options = {
+                autoDismiss: duration,
+                backgroundColor: bgColor,
+                textColor: textColor,
+                borderColor: borderColor,
+                animationDirection: animationDirection,
+                showCloseButton: showCloseButton,
+                pauseOnHover: pauseOnHover
+            };
+
+            if (icon) options.icon = icon;
+            if (className) options.className = className;
+
+            toast[type](message, options);
+        }
+
+        function dismissAll() {
+            toast.dismissAll();
+        }
+
+        // Helper function to update active buttons
+        function updateActiveButton(clickedButton, section) {
+            const sectionElement = clickedButton.closest('.config-section');
+            sectionElement.querySelectorAll('.config-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            clickedButton.classList.add('active');
+        }
+
+        // Helper function to update animation direction buttons
+        function updateAnimationDirectionButtons(activeDirection) {
+            const allButtons = document.querySelectorAll('.config-btn');
+            allButtons.forEach(btn => {
+                const onclick = btn.getAttribute('onclick');
+                if (onclick && onclick.includes('setAnimationDirection')) {
+                    btn.classList.remove('active');
+                    const btnDirection = onclick.match(/'([^']+)'/)[1];
+                    if (btnDirection === activeDirection) {
+                        btn.classList.add('active');
+                    }
+                }
+            });
+        }
+
+        // Demo: Show a welcome message
+        setTimeout(() => {
+            toast.info('🎮 Welcome to the ModernToasts Playground! Try all the features below.', {
+                autoDismiss: 6000
+            });
+        }, 1000);
+    </script>
+</body>
+
+</html>

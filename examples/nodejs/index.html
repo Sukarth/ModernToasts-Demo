@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts - Node.js/Express Example</title>
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #68d391 0%, #38a169 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #38a169;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            color: #68d391;
+        }
+        
+        .demo-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: white;
+        }
+        
+        .btn-success { background: #10b981; }
+        .btn-error { background: #ef4444; }
+        .btn-info { background: #3b82f6; }
+        .btn-warning { background: #f59e0b; }
+        .btn-secondary { background: #6b7280; }
+        .btn-node { background: #68d391; color: #1f2937; }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .highlight {
+            background: #dcfce7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Demo Home</a>
+        
+        <div class="header">
+            <h1>🟢 ModernToasts + Node.js</h1>
+            <p>Server-side integration with Express.js and template engines</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Live Demo</h2>
+            <div class="demo-section">
+                <p>Try the Node.js/Express integration in action:</p>
+                <div class="button-grid">
+                    <button class="btn btn-success" onclick="showSuccess()">✅ Success Toast</button>
+                    <button class="btn btn-error" onclick="showError()">❌ Error Toast</button>
+                    <button class="btn btn-info" onclick="showInfo()">ℹ️ Info Toast</button>
+                    <button class="btn btn-warning" onclick="showWarning()">⚠️ Warning Toast</button>
+                </div>
+                <div class="button-grid">
+                    <button class="btn btn-node" onclick="showExpressExample()">🟢 Express Route</button>
+                    <button class="btn btn-secondary" onclick="showApiExample()">🌐 API Response</button>
+                    <button class="btn btn-secondary" onclick="showMiddlewareExample()">⚙️ Middleware</button>
+                    <button class="btn btn-secondary" onclick="dismissAll()">🗑️ Dismiss All</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📦 Installation</h2>
+            <pre class="code-block"><code class="language-bash">npm install modern-toasts express</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Basic Express Setup</h2>
+            <h3>Simple Express server with ModernToasts</h3>
+            <pre class="code-block"><code class="language-javascript">// server.js
+const express = require('express');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Serve static files
+app.use(express.static('public'));
+app.use('/modern-toasts', express.static(
+  path.join(__dirname, 'node_modules/modern-toasts/dist')
+));
+
+// Parse JSON bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Basic route with toast integration
+app.get('/', (req, res) => {
+  res.send(`
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+      &lt;title&gt;ModernToasts + Express&lt;/title&gt;
+      &lt;script src="/modern-toasts/modern-toasts.min.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;h1&gt;Welcome to Express + ModernToasts!&lt;/h1&gt;
+      &lt;button onclick="showWelcome()"&gt;Show Welcome Toast&lt;/button&gt;
+      
+      &lt;script&gt;
+        const { toast } = window.ModernToasts;
+        
+        function showWelcome() {
+          toast.success('Welcome to our Express app!');
+        }
+      &lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+  `);
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🌐 API Routes with Toast Feedback</h2>
+            <h3>RESTful API with client-side toast notifications</h3>
+            <pre class="code-block"><code class="language-javascript">// routes/api.js
+const express = require('express');
+const router = express.Router();
+
+// User registration endpoint
+router.post('/register', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email and password are required',
+        toastType: 'error'
+      });
+    }
+    
+    // Simulate user creation
+    const user = await createUser({ email, password });
+    
+    res.json({
+      success: true,
+      message: 'Account created successfully!',
+      toastType: 'success',
+      user: { id: user.id, email: user.email }
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error. Please try again.',
+      toastType: 'error'
+    });
+  }
+});
+
+// Login endpoint
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    const user = await authenticateUser(email, password);
+    
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials',
+        toastType: 'error'
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: `Welcome back, ${user.name}!`,
+      toastType: 'success',
+      token: generateToken(user.id)
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Login failed. Please try again.',
+      toastType: 'error'
+    });
+  }
+});
+
+module.exports = router;</code></pre>
+            
+            <h3>Client-side API integration</h3>
+            <pre class="code-block"><code class="language-javascript">// public/js/api.js
+class ApiClient {
+  constructor() {
+    this.baseURL = '/api';
+  }
+
+  async request(endpoint, options = {}) {
+    try {
+      const response = await fetch(`${this.baseURL}${endpoint}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers
+        },
+        ...options
+      });
+
+      const data = await response.json();
+
+      // Show toast based on response
+      if (data.toastType && data.message) {
+        toast[data.toastType](data.message);
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Request failed');
+      }
+
+      return data;
+    } catch (error) {
+      toast.error(error.message || 'Network error occurred');
+      throw error;
+    }
+  }
+
+  async register(userData) {
+    return this.request('/register', {
+      method: 'POST',
+      body: JSON.stringify(userData)
+    });
+  }
+
+  async login(credentials) {
+    return this.request('/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials)
+    });
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Express Middleware</h2>
+            <h3>Toast notification middleware</h3>
+            <pre class="code-block"><code class="language-javascript">// middleware/toast.js
+const toastMiddleware = (req, res, next) => {
+  // Add toast helper methods to response
+  res.toast = {
+    success: (message, options = {}) => {
+      res.locals.toast = {
+        type: 'success',
+        message,
+        options
+      };
+    },
+    
+    error: (message, options = {}) => {
+      res.locals.toast = {
+        type: 'error',
+        message,
+        options
+      };
+    },
+    
+    info: (message, options = {}) => {
+      res.locals.toast = {
+        type: 'info',
+        message,
+        options
+      };
+    },
+    
+    warning: (message, options = {}) => {
+      res.locals.toast = {
+        type: 'warning',
+        message,
+        options
+      };
+    }
+  };
+  
+  next();
+};
+
+module.exports = toastMiddleware;</code></pre>
+            
+            <h3>Using middleware in routes</h3>
+            <pre class="code-block"><code class="language-javascript">// Use the middleware
+app.use(toastMiddleware);
+
+app.post('/contact', (req, res) => {
+  const { name, email, message } = req.body;
+  
+  if (!name || !email || !message) {
+    res.toast.error('All fields are required');
+    return res.redirect('/contact');
+  }
+  
+  // Process contact form
+  sendContactEmail({ name, email, message });
+  
+  res.toast.success('Message sent successfully!');
+  res.redirect('/contact');
+});</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎨 Template Engine Integration</h2>
+            <h3>EJS template with ModernToasts</h3>
+            <pre class="code-block"><code class="language-html">&lt;!-- views/layout.ejs --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+  &lt;script src="/modern-toasts/modern-toasts.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;%- body %&gt;
+  
+  &lt;script&gt;
+    const { toast } = window.ModernToasts;
+    
+    // Configure toast
+    toast.configure({
+      position: 'top-right',
+      maxVisibleStackToasts: 3
+    });
+    
+    // Show toast if one is set
+    &lt;% if (locals.toast) { %&gt;
+      toast.&lt;%= toast.type %&gt;('&lt;%= toast.message %&gt;', &lt;%- JSON.stringify(toast.options) %&gt;);
+    &lt;% } %&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            
+            <h3>Handlebars template integration</h3>
+            <pre class="code-block"><code class="language-html">&lt;!-- views/layouts/main.hbs --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;{{title}}&lt;/title&gt;
+  &lt;script src="/modern-toasts/modern-toasts.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  {{{body}}}
+  
+  &lt;script&gt;
+    const { toast } = window.ModernToasts;
+    
+    {{#if toast}}
+      toast.{{toast.type}}('{{{toast.message}}}', {{{json toast.options}}});
+    {{/if}}
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Real-world Examples</h2>
+            
+            <h3>File Upload with Progress</h3>
+            <pre class="code-block"><code class="language-javascript">// routes/upload.js
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
+router.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: false,
+      message: 'No file uploaded',
+      toastType: 'error'
+    });
+  }
+  
+  // Process file
+  processFile(req.file)
+    .then(() => {
+      res.json({
+        success: true,
+        message: `File "${req.file.originalname}" uploaded successfully!`,
+        toastType: 'success'
+      });
+    })
+    .catch(() => {
+      res.status(500).json({
+        success: false,
+        message: 'File processing failed',
+        toastType: 'error'
+      });
+    });
+});</code></pre>
+            
+            <h3>Database Operations</h3>
+            <pre class="code-block"><code class="language-javascript">// routes/users.js
+router.put('/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+    
+    const user = await User.findByIdAndUpdate(id, updates, { new: true });
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        toastType: 'error'
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: 'Profile updated successfully!',
+      toastType: 'success',
+      user
+    });
+    
+  } catch (error) {
+    if (error.code === 11000) {
+      res.status(400).json({
+        success: false,
+        message: 'Email already exists',
+        toastType: 'error'
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Update failed. Please try again.',
+        toastType: 'error'
+      });
+    }
+  }
+});</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 Useful Links</h2>
+            <div class="button-grid">
+                <a href="https://www.npmjs.com/package/modern-toasts" class="btn btn-info" style="text-decoration: none; text-align: center;">📦 NPM Package</a>
+                <a href="https://github.com/sukarth/ModernToasts" class="btn btn-secondary" style="text-decoration: none; text-align: center;">📚 Documentation</a>
+                <a href="../playground/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🎮 Interactive Playground</a>
+                <a href="../angular/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🅰️ Angular Example</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include ModernToasts from CDN -->
+    <script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js"></script>
+    
+    <!-- Include Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    
+    <script>
+        // Initialize Highlight.js
+        hljs.highlightAll();
+        
+        // Get toast instance from global
+        const { toast } = window.ModernToasts;
+        
+        // Configure for demo
+        toast.configure({
+            position: 'bottom-right',
+            maxVisibleStackToasts: 3,
+            enableBorderAnimation: true,
+            enableFillAnimation: true
+        });
+        
+        // Demo functions
+        function showSuccess() {
+            toast.success('🟢 Express server response successful!');
+        }
+        
+        function showError() {
+            toast.error('❌ Express route error occurred!');
+        }
+        
+        function showInfo() {
+            toast.info('ℹ️ Express middleware executed successfully.');
+        }
+        
+        function showWarning() {
+            toast.warning('⚠️ Express validation warning triggered.');
+        }
+        
+        function showExpressExample() {
+            toast.success('🟢 Powered by Express.js!', {
+                backgroundColor: '#68d391',
+                textColor: '#1f2937',
+                borderColor: '#38a169'
+            });
+        }
+        
+        function showApiExample() {
+            toast.info('🌐 API endpoint called successfully', {
+                autoDismiss: 4000
+            });
+        }
+        
+        function showMiddlewareExample() {
+            toast.warning('⚙️ Express middleware: Authentication required');
+        }
+        
+        function dismissAll() {
+            toast.dismissAll();
+        }
+        
+        // Show welcome toast
+        setTimeout(() => {
+            toast.success('🎉 Welcome to ModernToasts Node.js integration!');
+        }, 500);
+    </script>
+</body>
+</html>

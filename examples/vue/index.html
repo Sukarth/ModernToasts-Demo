@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts - Vue.js Example</title>
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #42b883 0%, #35495e 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #42b883;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            color: #369870;
+        }
+        
+        .demo-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: white;
+        }
+        
+        .btn-success { background: #10b981; }
+        .btn-error { background: #ef4444; }
+        .btn-info { background: #3b82f6; }
+        .btn-warning { background: #f59e0b; }
+        .btn-secondary { background: #6b7280; }
+        .btn-vue { background: #42b883; }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .highlight {
+            background: #dcfce7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .vue-demo {
+            border: 2px solid #42b883;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Demo Home</a>
+        
+        <div class="header">
+            <h1>🟢 ModernToasts + Vue.js</h1>
+            <p>Complete Vue.js integration with composables and plugins</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Live Demo</h2>
+            <div id="vue-app" class="vue-demo">
+                <h3>Vue.js Interactive Demo</h3>
+                <div class="button-grid">
+                    <button class="btn btn-success" @click="showSuccess">✅ Success Toast</button>
+                    <button class="btn btn-error" @click="showError">❌ Error Toast</button>
+                    <button class="btn btn-info" @click="showInfo">ℹ️ Info Toast</button>
+                    <button class="btn btn-warning" @click="showWarning">⚠️ Warning Toast</button>
+                </div>
+                <div class="button-grid">
+                    <button class="btn btn-vue" @click="showVueExample">🟢 Vue Reactive</button>
+                    <button class="btn btn-secondary" @click="showFormValidation">📝 Form Validation</button>
+                    <button class="btn btn-secondary" @click="showApiCall">🌐 API Call</button>
+                    <button class="btn btn-secondary" @click="dismissAll">🗑️ Dismiss All</button>
+                </div>
+                
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label>Custom Message:</label>
+                    <input v-model="customMessage" placeholder="Enter your custom message...">
+                </div>
+                <div class="form-group">
+                    <label>Toast Type:</label>
+                    <select v-model="selectedType">
+                        <option value="success">Success</option>
+                        <option value="error">Error</option>
+                        <option value="info">Info</option>
+                        <option value="warning">Warning</option>
+                    </select>
+                </div>
+                <button class="btn btn-vue" @click="showCustomToast">🎨 Show Custom Toast</button>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📦 Installation</h2>
+            <pre class="code-block"><code class="language-bash">npm install modern-toasts</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Basic Usage</h2>
+            <h3>Simple Import and Use</h3>
+            <pre class="code-block"><code class="language-javascript">import toast from 'modern-toasts';
+
+export default {
+  methods: {
+    handleClick() {
+      toast.success('Hello from Vue!');
+    }
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔌 Vue Plugin</h2>
+            <h3>Create a Vue plugin for global access</h3>
+            <pre class="code-block"><code class="language-javascript">// plugins/toast.js
+import toast from 'modern-toasts';
+
+export default {
+  install(app, options = {}) {
+    // Configure toast with options
+    toast.configure({
+      position: 'bottom-right',
+      maxVisibleStackToasts: 3,
+      enableBorderAnimation: true,
+      enableFillAnimation: true,
+      ...options
+    });
+
+    // Add to global properties
+    app.config.globalProperties.$toast = toast;
+    
+    // Provide for composition API
+    app.provide('toast', toast);
+  }
+};</code></pre>
+            
+            <h3>Register the plugin</h3>
+            <pre class="code-block"><code class="language-javascript">// main.js
+import { createApp } from 'vue';
+import App from './App.vue';
+import ToastPlugin from './plugins/toast';
+
+const app = createApp(App);
+
+app.use(ToastPlugin, {
+  position: 'top-right',
+  maxVisibleStackToasts: 4
+});
+
+app.mount('#app');</code></pre>
+            
+            <h3>Use in components (Options API)</h3>
+            <pre class="code-block"><code class="language-javascript">export default {
+  methods: {
+    handleSave() {
+      this.$toast.success('Data saved successfully!');
+    },
+    
+    handleError() {
+      this.$toast.error('Something went wrong!');
+    }
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎣 Composition API</h2>
+            <h3>Create a composable</h3>
+            <pre class="code-block"><code class="language-javascript">// composables/useToast.js
+import { inject } from 'vue';
+import toast from 'modern-toasts';
+
+export function useToast() {
+  // Try to get from provide/inject first
+  const injectedToast = inject('toast', null);
+  const toastInstance = injectedToast || toast;
+
+  const showSuccess = (message, options) => {
+    return toastInstance.success(message, options);
+  };
+
+  const showError = (message, options) => {
+    return toastInstance.error(message, options);
+  };
+
+  const showInfo = (message, options) => {
+    return toastInstance.info(message, options);
+  };
+
+  const showWarning = (message, options) => {
+    return toastInstance.warning(message, options);
+  };
+
+  const dismiss = (id) => {
+    toastInstance.dismiss(id);
+  };
+
+  const dismissAll = () => {
+    toastInstance.dismissAll();
+  };
+
+  const configure = (config) => {
+    toastInstance.configure(config);
+  };
+
+  return {
+    showSuccess,
+    showError,
+    showInfo,
+    showWarning,
+    dismiss,
+    dismissAll,
+    configure,
+    toast: toastInstance
+  };
+}</code></pre>
+            
+            <h3>Use in components (Composition API)</h3>
+            <pre class="code-block"><code class="language-javascript">import { useToast } from '@/composables/useToast';
+
+export default {
+  setup() {
+    const { showSuccess, showError } = useToast();
+
+    const handleSubmit = async () => {
+      try {
+        await submitForm();
+        showSuccess('Form submitted successfully!');
+      } catch (error) {
+        showError('Failed to submit form');
+      }
+    };
+
+    return {
+      handleSubmit
+    };
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Real-world Examples</h2>
+            
+            <h3>Form Validation</h3>
+            <pre class="code-block"><code class="language-javascript">import { ref } from 'vue';
+import { useToast } from '@/composables/useToast';
+
+export default {
+  setup() {
+    const { showError, showSuccess } = useToast();
+    const form = ref({
+      email: '',
+      password: ''
+    });
+
+    const validateAndSubmit = async () => {
+      // Validation
+      if (!form.value.email) {
+        showError('Email is required');
+        return;
+      }
+
+      if (!form.value.password) {
+        showError('Password is required');
+        return;
+      }
+
+      if (form.value.password.length < 8) {
+        showError('Password must be at least 8 characters');
+        return;
+      }
+
+      try {
+        await login(form.value);
+        showSuccess('Login successful!', {
+          autoDismiss: 3000
+        });
+      } catch (error) {
+        showError('Invalid credentials');
+      }
+    };
+
+    return {
+      form,
+      validateAndSubmit
+    };
+  }
+}</code></pre>
+            
+            <h3>API Integration with Loading States</h3>
+            <pre class="code-block"><code class="language-javascript">import { ref } from 'vue';
+import { useToast } from '@/composables/useToast';
+
+export default {
+  setup() {
+    const { showInfo, showSuccess, showError, dismiss } = useToast();
+    const loading = ref(false);
+    const data = ref(null);
+
+    const fetchData = async () => {
+      loading.value = true;
+      
+      const loadingToastId = showInfo('Loading data...', {
+        autoDismiss: 0 // Keep until we dismiss it
+      });
+
+      try {
+        const response = await fetch('/api/data');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        data.value = await response.json();
+        
+        // Dismiss loading toast and show success
+        dismiss(loadingToastId);
+        showSuccess('Data loaded successfully!');
+        
+      } catch (error) {
+        dismiss(loadingToastId);
+        
+        if (error.message.includes('404')) {
+          showError('Data not found');
+        } else if (error.message.includes('500')) {
+          showError('Server error. Please try again.');
+        } else {
+          showError('Network error. Check your connection.');
+        }
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    return {
+      loading,
+      data,
+      fetchData
+    };
+  }
+}</code></pre>
+            
+            <h3>Reactive Toast Configuration</h3>
+            <pre class="code-block"><code class="language-javascript">import { ref, watch } from 'vue';
+import { useToast } from '@/composables/useToast';
+
+export default {
+  setup() {
+    const { configure, showInfo } = useToast();
+    const position = ref('bottom-right');
+    const maxVisible = ref(3);
+
+    // Watch for configuration changes
+    watch([position, maxVisible], ([newPosition, newMaxVisible]) => {
+      configure({
+        position: newPosition,
+        maxVisibleStackToasts: newMaxVisible
+      });
+      
+      showInfo(`Configuration updated: ${newPosition}, max ${newMaxVisible}`);
+    });
+
+    return {
+      position,
+      maxVisible
+    };
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎭 Custom Toast Component</h2>
+            <pre class="code-block"><code class="language-html">// components/ToastButton.vue
+&lt;template&gt;
+  &lt;button 
+    @click="showToast" 
+    :class="buttonClass"
+    :disabled="loading"
+  &gt;
+    {{ loading ? 'Loading...' : label }}
+  &lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import { useToast } from '@/composables/useToast';
+
+export default {
+  props: {
+    label: String,
+    type: {
+      type: String,
+      default: 'info'
+    },
+    message: String,
+    loading: Boolean
+  },
+  
+  setup(props) {
+    const { showSuccess, showError, showInfo, showWarning } = useToast();
+    
+    const toastMethods = {
+      success: showSuccess,
+      error: showError,
+      info: showInfo,
+      warning: showWarning
+    };
+    
+    const showToast = () => {
+      const method = toastMethods[props.type];
+      if (method) {
+        method(props.message || `${props.type} toast!`);
+      }
+    };
+    
+    return {
+      showToast
+    };
+  },
+  
+  computed: {
+    buttonClass() {
+      return `btn btn-${this.type}`;
+    }
+  }
+}
+&lt;/script&gt;</code></pre>
+            
+            <h3>Usage in templates</h3>
+            <pre class="code-block"><code class="language-html">&lt;template&gt;
+  &lt;ToastButton
+    type="success"
+    message="Operation completed successfully!"
+    label="Complete Task"
+    :options="{ autoDismiss: 3000 }"
+  /&gt;
+
+  &lt;ToastButton
+    type="error"
+    message="Something went wrong!"
+    label="Trigger Error"
+  /&gt;
+&lt;/template&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Advanced Configuration</h2>
+            <pre class="code-block"><code class="language-javascript">// Configure globally or per component
+import { useToast } from '@/composables/useToast';
+import { onMounted } from 'vue';
+
+export default {
+  setup() {
+    const { configure } = useToast();
+    
+    // Configure on component mount
+    onMounted(() => {
+      configure({
+        position: 'top-center',
+        maxVisibleStackToasts: 5,
+        defaultDuration: 5000,
+        enableBorderAnimation: true,
+        enableFillAnimation: true,
+        pauseBackgroundToastsOnHover: true,
+        customCSS: `
+          .toast-container {
+            z-index: 9999;
+          }
+        `
+      });
+    });
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>📱 TypeScript Support</h2>
+            <pre class="code-block"><code class="language-typescript">// composables/useToast.ts
+import { inject } from 'vue';
+import toast, { ToastType, ToastOptions } from 'modern-toasts';
+
+interface CustomToastOptions extends ToastOptions {
+  userId?: string;
+  component?: string;
+}
+
+export function useToast() {
+  const showTypedToast = (
+    type: ToastType,
+    message: string,
+    options?: CustomToastOptions
+  ): string => {
+    return toast[type](message, options);
+  };
+
+  return {
+    showSuccess: (msg: string, opts?: CustomToastOptions) => 
+      showTypedToast('success', msg, opts),
+    showError: (msg: string, opts?: CustomToastOptions) => 
+      showTypedToast('error', msg, opts),
+    // ... other methods
+  };
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 Useful Links</h2>
+            <div class="button-grid">
+                <a href="https://www.npmjs.com/package/modern-toasts" class="btn btn-info" style="text-decoration: none; text-align: center;">📦 NPM Package</a>
+                <a href="https://github.com/sukarth/ModernToasts" class="btn btn-secondary" style="text-decoration: none; text-align: center;">📚 Documentation</a>
+                <a href="../playground/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🎮 Interactive Playground</a>
+                <a href="../react/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">⚛️ React Example</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Vue.js and ModernToasts -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js"></script>
+    
+    <!-- Include Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    
+    <script>
+        // Initialize Highlight.js
+        hljs.highlightAll();
+        
+        const { createApp, ref } = Vue;
+        const { toast } = window.ModernToasts;
+        
+        // Configure toast
+        toast.configure({
+            position: 'bottom-right',
+            maxVisibleStackToasts: 3,
+            enableBorderAnimation: true,
+            enableFillAnimation: true
+        });
+        
+        createApp({
+            setup() {
+                const customMessage = ref('Hello from Vue.js!');
+                const selectedType = ref('success');
+                
+                const showSuccess = () => {
+                    toast.success('🟢 Vue.js integration working perfectly!');
+                };
+                
+                const showError = () => {
+                    toast.error('❌ Vue component error occurred!');
+                };
+                
+                const showInfo = () => {
+                    toast.info('ℹ️ Vue reactive data updated successfully.');
+                };
+                
+                const showWarning = () => {
+                    toast.warning('⚠️ Vue component will be unmounted.');
+                };
+                
+                const showVueExample = () => {
+                    toast.success('🟢 This toast was triggered by Vue reactivity!', {
+                        backgroundColor: '#42b883',
+                        textColor: '#ffffff',
+                        borderColor: '#369870'
+                    });
+                };
+                
+                const showFormValidation = () => {
+                    toast.error('📝 Vue form validation: Email field is required');
+                };
+                
+                const showApiCall = () => {
+                    toast.info('🌐 Vue API call completed successfully', {
+                        autoDismiss: 4000
+                    });
+                };
+                
+                const showCustomToast = () => {
+                    toast[selectedType.value](customMessage.value || 'Custom Vue toast!');
+                };
+                
+                const dismissAll = () => {
+                    toast.dismissAll();
+                };
+                
+                return {
+                    customMessage,
+                    selectedType,
+                    showSuccess,
+                    showError,
+                    showInfo,
+                    showWarning,
+                    showVueExample,
+                    showFormValidation,
+                    showApiCall,
+                    showCustomToast,
+                    dismissAll
+                };
+            }
+        }).mount('#vue-app');
+        
+        // Show welcome toast
+        setTimeout(() => {
+            toast.success('🎉 Welcome to ModernToasts Vue.js integration!');
+        }, 500);
+    </script>
+</body>
+</html>

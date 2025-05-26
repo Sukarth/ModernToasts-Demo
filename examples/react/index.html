@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts - React Example</title>
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            color: #5a67d8;
+        }
+        
+        .demo-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: white;
+        }
+        
+        .btn-success { background: #10b981; }
+        .btn-error { background: #ef4444; }
+        .btn-info { background: #3b82f6; }
+        .btn-warning { background: #f59e0b; }
+        .btn-secondary { background: #6b7280; }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Demo Home</a>
+        
+        <div class="header">
+            <h1>⚛️ ModernToasts + React</h1>
+            <p>Complete React integration examples with hooks and components</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Live Demo</h2>
+            <div class="demo-section">
+                <p>Try the React integration in action:</p>
+                <div class="button-grid">
+                    <button class="btn btn-success" onclick="showSuccess()">✅ Success Toast</button>
+                    <button class="btn btn-error" onclick="showError()">❌ Error Toast</button>
+                    <button class="btn btn-info" onclick="showInfo()">ℹ️ Info Toast</button>
+                    <button class="btn btn-warning" onclick="showWarning()">⚠️ Warning Toast</button>
+                </div>
+                <div class="button-grid">
+                    <button class="btn btn-secondary" onclick="showFormValidation()">📝 Form Validation</button>
+                    <button class="btn btn-secondary" onclick="showApiResponse()">🌐 API Response</button>
+                    <button class="btn btn-secondary" onclick="showUserAction()">👤 User Action</button>
+                    <button class="btn btn-secondary" onclick="dismissAll()">🗑️ Dismiss All</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📦 Installation</h2>
+            <pre class="code-block"><code class="language-bash">npm install modern-toasts</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Basic Usage</h2>
+            <h3>Simple Import and Use</h3>
+            <pre class="code-block"><code class="language-jsx">import toast from 'modern-toasts';
+
+// In your component
+function MyComponent() {
+  const handleClick = () => {
+    toast.success('Hello from React!');
+  };
+
+  return (
+    &lt;button onClick={handleClick}&gt;
+      Show Toast
+    &lt;/button&gt;
+  );
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🪝 Custom Hook</h2>
+            <h3>Create a reusable toast hook</h3>
+            <pre class="code-block"><code class="language-javascript">// hooks/useToast.js
+import toast from 'modern-toasts';
+import { useCallback } from 'react';
+
+export const useToast = () => {
+  const showSuccess = useCallback((message, options) => {
+    return toast.success(message, options);
+  }, []);
+
+  const showError = useCallback((message, options) => {
+    return toast.error(message, options);
+  }, []);
+
+  const showInfo = useCallback((message, options) => {
+    return toast.info(message, options);
+  }, []);
+
+  const showWarning = useCallback((message, options) => {
+    return toast.warning(message, options);
+  }, []);
+
+  const dismiss = useCallback((id) => {
+    toast.dismiss(id);
+  }, []);
+
+  const dismissAll = useCallback(() => {
+    toast.dismissAll();
+  }, []);
+
+  return {
+    showSuccess,
+    showError,
+    showInfo,
+    showWarning,
+    dismiss,
+    dismissAll
+  };
+};</code></pre>
+            
+            <h3>Using the hook in components</h3>
+            <pre class="code-block"><code class="language-jsx">import { useToast } from './hooks/useToast';
+
+function UserProfile() {
+  const { showSuccess, showError } = useToast();
+
+  const handleSave = async () => {
+    try {
+      await saveUserProfile();
+      showSuccess('Profile saved successfully!');
+    } catch (error) {
+      showError('Failed to save profile. Please try again.');
+    }
+  };
+
+  return (
+    &lt;button onClick={handleSave}&gt;
+      Save Profile
+    &lt;/button&gt;
+  );
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎨 Toast Provider Component</h2>
+            <h3>Create a context-based toast system</h3>
+            <pre class="code-block"><code class="language-jsx">// components/ToastProvider.jsx
+import React, { createContext, useContext, useCallback } from 'react';
+import toast from 'modern-toasts';
+
+const ToastContext = createContext();
+
+export const ToastProvider = ({ children, config = {} }) => {
+  // Configure toast on mount
+  React.useEffect(() => {
+    toast.configure({
+      position: 'bottom-right',
+      maxVisibleStackToasts: 3,
+      enableBorderAnimation: true,
+      enableFillAnimation: true,
+      ...config
+    });
+  }, [config]);
+
+  const showToast = useCallback((type, message, options = {}) => {
+    return toast[type](message, options);
+  }, []);
+
+  const value = {
+    success: (msg, opts) => showToast('success', msg, opts),
+    error: (msg, opts) => showToast('error', msg, opts),
+    info: (msg, opts) => showToast('info', msg, opts),
+    warning: (msg, opts) => showToast('warning', msg, opts),
+    dismiss: toast.dismiss,
+    dismissAll: toast.dismissAll,
+    configure: toast.configure
+  };
+
+  return (
+    &lt;ToastContext.Provider value={value}&gt;
+      {children}
+    &lt;/ToastContext.Provider&gt;
+  );
+};
+
+export const useToastContext = () => {
+  const context = useContext(ToastContext);
+  if (!context) {
+    throw new Error('useToastContext must be used within ToastProvider');
+  }
+  return context;
+};</code></pre>
+            
+            <h3>App setup with provider</h3>
+            <pre class="code-block"><code class="language-jsx">// App.jsx
+import { ToastProvider } from './components/ToastProvider';
+
+function App() {
+  return (
+    &lt;ToastProvider config={{ position: 'top-right' }}&gt;
+      &lt;div className="App"&gt;
+        &lt;Header /&gt;
+        &lt;Main /&gt;
+        &lt;Footer /&gt;
+      &lt;/div&gt;
+    &lt;/ToastProvider&gt;
+  );
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Real-world Examples</h2>
+            
+            <h3>Form Validation</h3>
+            <pre class="code-block"><code class="language-jsx">import { useToast } from './hooks/useToast';
+
+function ContactForm() {
+  const { showError, showSuccess } = useToast();
+  const [formData, setFormData] = useState({});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validation
+    if (!formData.email) {
+      showError('Email is required');
+      return;
+    }
+    
+    if (!formData.message) {
+      showError('Message is required');
+      return;
+    }
+
+    try {
+      await submitForm(formData);
+      showSuccess('Message sent successfully!', {
+        autoDismiss: 5000
+      });
+      setFormData({});
+    } catch (error) {
+      showError('Failed to send message. Please try again.');
+    }
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      {/* form fields */}
+    &lt;/form&gt;
+  );
+}</code></pre>
+            
+            <h3>API Error Handling</h3>
+            <pre class="code-block"><code class="language-jsx">import { useToast } from './hooks/useToast';
+
+function DataFetcher() {
+  const { showError, showInfo } = useToast();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    setLoading(true);
+    showInfo('Loading data...', { autoDismiss: 2000 });
+
+    try {
+      const response = await fetch('/api/data');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      setData(result);
+      
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        showError('Request was cancelled');
+      } else if (error.message.includes('404')) {
+        showError('Data not found');
+      } else if (error.message.includes('500')) {
+        showError('Server error. Please try again later.');
+      } else {
+        showError('Network error. Check your connection.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={fetchData} disabled={loading}&gt;
+        {loading ? 'Loading...' : 'Fetch Data'}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            
+            <h3>User Actions with Feedback</h3>
+            <pre class="code-block"><code class="language-jsx">import { useToast } from './hooks/useToast';
+
+function UserActions() {
+  const { showSuccess, showWarning, showInfo } = useToast();
+
+  const handleLike = () => {
+    showSuccess('❤️ Liked!', { autoDismiss: 2000 });
+  };
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    showInfo('🔗 Link copied to clipboard!');
+  };
+
+  const handleDelete = () => {
+    showWarning('⚠️ This action cannot be undone!', {
+      autoDismiss: 0, // Persistent warning
+      showCloseButton: true
+    });
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={handleLike}&gt;Like&lt;/button&gt;
+      &lt;button onClick={handleShare}&gt;Share&lt;/button&gt;
+      &lt;button onClick={handleDelete}&gt;Delete&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Advanced Configuration</h2>
+            <pre class="code-block"><code class="language-javascript">// Configure globally in your app
+toast.configure({
+  position: 'bottom-right',
+  maxVisibleStackToasts: 4,
+  defaultDuration: 4000,
+  enableBorderAnimation: true,
+  enableFillAnimation: true,
+  pauseBackgroundToastsOnHover: true,
+  animationDirection: 'left-to-right',
+  customCSS: `
+    .toast-container {
+      z-index: 9999;
+    }
+    .toast-custom {
+      border-radius: 12px;
+    }
+  `
+});</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎭 Custom Styling</h2>
+            <pre class="code-block"><code class="language-javascript">// Custom styled toasts
+const showCustomToast = () => {
+  toast.success('Custom styled toast!', {
+    backgroundColor: '#1f2937',
+    textColor: '#f9fafb',
+    borderColor: '#10b981',
+    className: 'my-custom-toast',
+    icon: '🚀',
+    autoDismiss: 5000
+  });
+};</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>📱 TypeScript Support</h2>
+            <pre class="code-block"><code class="language-typescript">// types/toast.ts
+import { ToastType, ToastOptions } from 'modern-toasts';
+
+interface CustomToastOptions extends ToastOptions {
+  userId?: string;
+  trackingId?: string;
+}
+
+export const useTypedToast = () => {
+  const showSuccess = (
+    message: string, 
+    options?: CustomToastOptions
+  ): string => {
+    return toast.success(message, options);
+  };
+
+  // ... other methods
+
+  return { showSuccess };
+};</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 Useful Links</h2>
+            <div class="button-grid">
+                <a href="https://www.npmjs.com/package/modern-toasts" class="btn btn-info" style="text-decoration: none; text-align: center;">📦 NPM Package</a>
+                <a href="https://github.com/sukarth/ModernToasts" class="btn btn-secondary" style="text-decoration: none; text-align: center;">📚 Documentation</a>
+                <a href="../playground/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🎮 Interactive Playground</a>
+                <a href="../vanilla/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🍦 Vanilla JS Example</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include ModernToasts from CDN -->
+    <script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js"></script>
+    
+    <!-- Include Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    
+    <script>
+        // Initialize Highlight.js
+        hljs.highlightAll();
+        
+        // Get toast instance from global
+        const { toast } = window.ModernToasts;
+        
+        // Configure for demo
+        toast.configure({
+            position: 'bottom-right',
+            maxVisibleStackToasts: 3,
+            enableBorderAnimation: true,
+            enableFillAnimation: true
+        });
+        
+        // Demo functions
+        function showSuccess() {
+            toast.success('⚛️ React integration working perfectly!');
+        }
+        
+        function showError() {
+            toast.error('❌ API request failed. Please try again.');
+        }
+        
+        function showInfo() {
+            toast.info('ℹ️ New React component available in your library.');
+        }
+        
+        function showWarning() {
+            toast.warning('⚠️ Your session will expire in 5 minutes.');
+        }
+        
+        function showFormValidation() {
+            toast.error('📝 Email field is required', {
+                autoDismiss: 4000
+            });
+        }
+        
+        function showApiResponse() {
+            toast.success('🌐 Data fetched successfully from API', {
+                autoDismiss: 3000
+            });
+        }
+        
+        function showUserAction() {
+            toast.info('👤 Profile updated successfully!', {
+                backgroundColor: '#1f2937',
+                textColor: '#f9fafb',
+                borderColor: '#3b82f6'
+            });
+        }
+        
+        function dismissAll() {
+            toast.dismissAll();
+        }
+        
+        // Show welcome toast
+        setTimeout(() => {
+            toast.success('🎉 Welcome to ModernToasts React integration!');
+        }, 500);
+    </script>
+</body>
+</html>

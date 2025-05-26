@@ -28,16 +28,16 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-        cache-dependency-path: 'demos/react-vite/package-lock.json'
+        cache-dependency-path: 'legacy/demos/react-vite/package-lock.json'
         
     - name: Install dependencies
       run: |
-        cd demos/react-vite
+        cd legacy/demos/react-vite
         npm install
         
     - name: Build React + Vite demo
       run: |
-        cd demos/react-vite
+        cd legacy/demos/react-vite
         npm run build
         
     - name: Setup Pages
@@ -47,11 +47,10 @@ jobs:
       run: |
         mkdir -p _site
         
-        # Copy all demos to deployment directory
-        cp -r demos/ _site/demos/
-        
-        # Copy documentation
-        cp -r docs/ _site/docs/
+        # Copy the new structure
+        cp -r examples/ _site/examples/ 2>/dev/null || echo "examples/ not found, skipping"
+        cp -r playground/ _site/playground/ 2>/dev/null || echo "playground/ not found, skipping"
+        cp -r legacy/ _site/legacy/
         
         # Copy root files
         cp README.md _site/

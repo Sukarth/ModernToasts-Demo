@@ -1,0 +1,37 @@
+{
+  "name": "ModernToasts-Demo",
+  "version": "1.0.0",
+  "description": "A comprehensive showcase of modern stacked overlay toast notification implementations using different technologies and approaches",
+  "scripts": {
+    "install-all": "cd demos/react-vite && npm install",
+    "dev:react-vite": "cd demos/react-vite && npm run dev",
+    "build:react-vite": "cd demos/react-vite && npm run build",
+    "preview:react-vite": "cd demos/react-vite && npm run preview",
+    "build:all": "npm run build:react-vite"
+  },
+  "keywords": [
+    "toast",
+    "notifications",
+    "react",
+    "typescript",
+    "vanilla-javascript",
+    "css-animations",
+    "ui-components",
+    "frontend-showcase",
+    "web-components",
+    "modern-web-development"
+  ],
+  "author": "Sukarth",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sukarth/ModernToasts-Demo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sukarth/ModernToasts-Demo/issues"
+  },
+  "homepage": "https://github.com/sukarth/ModernToasts-Demo#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

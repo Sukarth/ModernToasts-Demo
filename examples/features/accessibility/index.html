@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts - Accessibility Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            color: #5a67d8;
+        }
+        
+        .section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .section p {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 0.25rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+        
+        .btn-primary { background: #667eea; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-info { background: #3b82f6; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-error { background: #ef4444; color: white; }
+        .btn-secondary { background: #6b7280; color: white; }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .feature-list li::before {
+            content: '✅';
+            font-size: 1rem;
+        }
+        
+        .keyboard-shortcuts {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .keyboard-shortcuts .shortcut {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .keyboard-shortcuts .key {
+            background: #374151;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin: 0 0.5rem;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .motion-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #e5e7eb;
+            border-radius: 8px;
+        }
+        
+        .motion-status {
+            font-weight: 600;
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Demo Home</a>
+        
+        <div class="header">
+            <h1>♿ Accessibility Demo</h1>
+            <p>Demonstrating ModernToasts accessibility features and compliance</p>
+        </div>
+        
+        <div class="section">
+            <h3>🔊 Screen Reader Support</h3>
+            <p>ModernToasts includes ARIA live regions that announce toast messages to screen readers automatically.</p>
+            <button class="btn btn-success" onclick="showScreenReaderDemo()">
+                📢 Test Screen Reader Announcement
+            </button>
+            <button class="btn btn-info" onclick="showPoliteAnnouncement()">
+                🔇 Polite Announcement
+            </button>
+            <button class="btn btn-warning" onclick="showAssertiveAnnouncement()">
+                📣 Assertive Announcement
+            </button>
+        </div>
+        
+        <div class="section">
+            <h3>⌨️ Keyboard Navigation</h3>
+            <p>All toast interactions are keyboard accessible. Use Tab to navigate and Enter/Space to interact.</p>
+            <div class="keyboard-shortcuts">
+                <div class="shortcut">
+                    <span>Focus toast close button:</span>
+                    <span class="key">Tab</span>
+                </div>
+                <div class="shortcut">
+                    <span>Dismiss focused toast:</span>
+                    <span class="key">Enter</span> or <span class="key">Space</span>
+                </div>
+                <div class="shortcut">
+                    <span>Dismiss all toasts:</span>
+                    <span class="key">Escape</span>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="showKeyboardDemo()">
+                ⌨️ Try Keyboard Navigation
+            </button>
+        </div>
+        
+        <div class="section">
+            <h3>🎨 High Contrast Support</h3>
+            <p>ModernToasts respects system high contrast settings and provides clear visual indicators.</p>
+            <button class="btn btn-info" onclick="showHighContrastDemo()">
+                🔲 High Contrast Toast
+            </button>
+            <button class="btn btn-secondary" onclick="showCustomContrastDemo()">
+                ⚫ Custom High Contrast
+            </button>
+        </div>
+        
+        <div class="section">
+            <h3>🏃 Reduced Motion Support</h3>
+            <p>Respects the user's preference for reduced motion by providing simpler animations.</p>
+            
+            <div class="motion-control">
+                <span>Motion Preference:</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="reducedMotionToggle" onchange="toggleReducedMotion()">
+                    <span class="slider"></span>
+                </label>
+                <span class="motion-status" id="motionStatus">Normal Motion</span>
+            </div>
+            
+            <button class="btn btn-warning" onclick="showReducedMotionDemo()">
+                🐌 Test Current Motion Setting
+            </button>
+        </div>
+        
+        <div class="section">
+            <h3>✅ Accessibility Features</h3>
+            <ul class="feature-list">
+                <li>ARIA live regions for screen reader announcements</li>
+                <li>Keyboard navigation and focus management</li>
+                <li>High contrast mode support</li>
+                <li>Reduced motion preference respect</li>
+                <li>Semantic HTML with proper roles</li>
+                <li>Color contrast compliance (WCAG AA)</li>
+                <li>Focus indicators for interactive elements</li>
+                <li>Escape key support for dismissing toasts</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h3>🧪 Test All Features</h3>
+            <button class="btn btn-success" onclick="runAccessibilityTest()">
+                🔍 Run Accessibility Test
+            </button>
+            <button class="btn btn-secondary" onclick="dismissAll()">
+                🗑️ Clear All Toasts
+            </button>
+        </div>
+    </div>
+
+    <!-- Include ModernToasts from CDN -->
+    <script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js"></script>
+    
+    <script>
+        // Get toast instance from global
+        const { toast } = window.ModernToasts;
+        
+        let reducedMotionEnabled = false;
+        
+        // Screen reader demos
+        function showScreenReaderDemo() {
+            toast.success('🔊 This message will be announced to screen readers automatically!');
+        }
+        
+        function showPoliteAnnouncement() {
+            toast.info('ℹ️ This is a polite announcement that won\'t interrupt other screen reader content.');
+        }
+        
+        function showAssertiveAnnouncement() {
+            toast.error('⚠️ This is an assertive announcement that will interrupt other content for important messages!');
+        }
+        
+        // Keyboard navigation demo
+        function showKeyboardDemo() {
+            toast.warning('⌨️ Use Tab to focus the close button, then Enter or Space to dismiss. Try it!', {
+                autoDismiss: 0  // Won't auto-dismiss so user can test keyboard navigation
+            });
+        }
+        
+        // High contrast demos
+        function showHighContrastDemo() {
+            toast.info('🔲 High contrast toast with clear borders and strong color differences', {
+                backgroundColor: '#ffffff',
+                textColor: '#000000',
+                borderColor: '#000000'
+            });
+        }
+        
+        function showCustomContrastDemo() {
+            toast.success('⚫ Custom high contrast with white text on dark background', {
+                backgroundColor: '#000000',
+                textColor: '#ffffff',
+                borderColor: '#ffffff'
+            });
+        }
+        
+        // Reduced motion demos
+        function showReducedMotionDemo() {
+            applyMotionSettings();
+            toast.info(`🐌 ${reducedMotionEnabled ? 'Reduced' : 'Normal'} motion animation - ${reducedMotionEnabled ? 'Simple fade' : 'Full animations'}`);
+        }
+        
+        function toggleReducedMotion() {
+            const toggle = document.getElementById('reducedMotionToggle');
+            const status = document.getElementById('motionStatus');
+            
+            reducedMotionEnabled = toggle.checked;
+            status.textContent = reducedMotionEnabled ? 'Reduced Motion' : 'Normal Motion';
+            
+            applyMotionSettings();
+            toast.success(`🔄 Motion preference: ${reducedMotionEnabled ? 'Reduced' : 'Normal'}`);
+        }
+        
+        function applyMotionSettings() {
+            toast.configure({
+                animationDuration: reducedMotionEnabled ? 150 : 300,
+                enableBorderAnimation: !reducedMotionEnabled,
+                enableFillAnimation: !reducedMotionEnabled,
+                animationDirection: reducedMotionEnabled ? 'none' : 'left-to-right'
+            });
+        }
+        
+        // Comprehensive accessibility test
+        function runAccessibilityTest() {
+            // Apply current motion settings before testing
+            applyMotionSettings();
+            
+            const motionText = reducedMotionEnabled ? 'with reduced motion' : 'with full animations';
+            
+            const tests = [
+                { type: 'success', message: '✅ Screen reader announcement test - This will be read aloud', delay: 0 },
+                { type: 'info', message: '⌨️ Keyboard navigation test (try Tab + Enter to dismiss)', delay: 1500, options: { autoDismiss: 0 } },
+                { type: 'warning', message: '🔲 High contrast test with clear borders', delay: 3000, options: { backgroundColor: '#000', textColor: '#fff', borderColor: '#fff' } },
+                { type: 'error', message: `🐌 Motion test ${motionText}`, delay: 4500 }
+            ];
+            
+            tests.forEach(test => {
+                setTimeout(() => {
+                    toast[test.type](test.message, test.options || {});
+                }, test.delay);
+            });
+            
+            // Show summary
+            setTimeout(() => {
+                toast.info('🧪 Accessibility test complete! All features demonstrated. Try the toggle above to test different motion settings.');
+            }, 6000);
+        }
+        
+        function dismissAll() {
+            toast.dismissAll();
+        }
+        
+        // Initialize with accessibility-friendly defaults
+        toast.configure({
+            position: 'bottom-right',
+            maxVisibleStackToasts: 3,
+            enableBorderAnimation: true,
+            enableFillAnimation: true,
+            animationDuration: 300
+        });
+        
+        // Add global keyboard support
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                toast.dismissAll();
+                toast.info('⌨️ All toasts dismissed with Escape key!');
+            }
+        });
+        
+        // Welcome message
+        setTimeout(() => {
+            toast.success('♿ Welcome to the Accessibility Demo! All features are screen reader and keyboard accessible.');
+        }, 500);
+    </script>
+</body>
+</html>

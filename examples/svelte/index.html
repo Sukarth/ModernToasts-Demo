@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts - Svelte Example</title>
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #ff3e00 0%, #ff8a00 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ff3e00;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            color: #ff8a00;
+        }
+        
+        .demo-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: white;
+        }
+        
+        .btn-success { background: #10b981; }
+        .btn-error { background: #ef4444; }
+        .btn-info { background: #3b82f6; }
+        .btn-warning { background: #f59e0b; }
+        .btn-secondary { background: #6b7280; }
+        .btn-svelte { background: #ff3e00; }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Demo Home</a>
+        
+        <div class="header">
+            <h1>🔥 ModernToasts + Svelte</h1>
+            <p>Complete Svelte integration with stores and reactive statements</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Live Demo</h2>
+            <div class="demo-section">
+                <p>Try the Svelte integration in action:</p>
+                <div class="button-grid">
+                    <button class="btn btn-success" onclick="showSuccess()">✅ Success Toast</button>
+                    <button class="btn btn-error" onclick="showError()">❌ Error Toast</button>
+                    <button class="btn btn-info" onclick="showInfo()">ℹ️ Info Toast</button>
+                    <button class="btn btn-warning" onclick="showWarning()">⚠️ Warning Toast</button>
+                </div>
+                <div class="button-grid">
+                    <button class="btn btn-svelte" onclick="showSvelteExample()">🔥 Svelte Store</button>
+                    <button class="btn btn-secondary" onclick="showReactiveExample()">⚡ Reactive</button>
+                    <button class="btn btn-secondary" onclick="showFormExample()">📝 Form Binding</button>
+                    <button class="btn btn-secondary" onclick="dismissAll()">🗑️ Dismiss All</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📦 Installation</h2>
+            <pre class="code-block"><code class="language-bash">npm install modern-toasts</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Basic Usage</h2>
+            <h3>Simple Import and Use</h3>
+            <pre class="code-block"><code class="language-javascript">&lt;script&gt;
+  import toast from 'modern-toasts';
+
+  function handleClick() {
+    toast.success('Hello from Svelte!');
+  }
+&lt;/script&gt;
+
+&lt;button on:click={handleClick}&gt;
+  Show Toast
+&lt;/button&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🏪 Toast Store</h2>
+            <h3>Create a Svelte store for toast management</h3>
+            <pre class="code-block"><code class="language-javascript">// stores/toast.js
+import { writable } from 'svelte/store';
+import toast from 'modern-toasts';
+
+// Configure toast on import
+toast.configure({
+  position: 'bottom-right',
+  maxVisibleStackToasts: 3,
+  enableBorderAnimation: true,
+  enableFillAnimation: true,
+  pauseBackgroundToastsOnHover: true
+});
+
+// Create stores for toast state
+export const toastConfig = writable({
+  position: 'bottom-right',
+  maxVisible: 3,
+  enableAnimations: true
+});
+
+export const activeToasts = writable([]);
+
+// Toast methods
+export const toastService = {
+  success: (message, options = {}) => {
+    const id = toast.success(message, options);
+    activeToasts.update(toasts => [...toasts, { id, type: 'success', message }]);
+    return id;
+  },
+
+  error: (message, options = {}) => {
+    const id = toast.error(message, options);
+    activeToasts.update(toasts => [...toasts, { id, type: 'error', message }]);
+    return id;
+  },
+
+  info: (message, options = {}) => {
+    const id = toast.info(message, options);
+    activeToasts.update(toasts => [...toasts, { id, type: 'info', message }]);
+    return id;
+  },
+
+  warning: (message, options = {}) => {
+    const id = toast.warning(message, options);
+    activeToasts.update(toasts => [...toasts, { id, type: 'warning', message }]);
+    return id;
+  },
+
+  dismiss: (id) => {
+    toast.dismiss(id);
+    activeToasts.update(toasts => toasts.filter(t => t.id !== id));
+  },
+
+  dismissAll: () => {
+    toast.dismissAll();
+    activeToasts.set([]);
+  },
+
+  configure: (config) => {
+    toast.configure(config);
+    toastConfig.update(current => ({ ...current, ...config }));
+  }
+};
+
+// Listen to toast events to update store
+toast.on('dismiss', (toastData) => {
+  activeToasts.update(toasts => toasts.filter(t => t.id !== toastData.id));
+});</code></pre>
+            
+            <h3>Use in components</h3>
+            <pre class="code-block"><code class="language-javascript">&lt;script&gt;
+  import { toastService, activeToasts } from '../stores/toast.js';
+
+  async function saveData() {
+    try {
+      await api.saveData();
+      toastService.success('Data saved successfully!');
+    } catch (error) {
+      toastService.error('Failed to save data');
+    }
+  }
+&lt;/script&gt;
+
+&lt;button on:click={saveData}&gt;Save Data&lt;/button&gt;
+
+{#if $activeToasts.length > 0}
+  &lt;p&gt;Active toasts: {$activeToasts.length}&lt;/p&gt;
+{/if}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>⚡ Reactive Statements</h2>
+            <h3>Reactive toast configuration</h3>
+            <pre class="code-block"><code class="language-javascript">&lt;script&gt;
+  import { toastService, toastConfig } from '../stores/toast.js';
+
+  let position = 'bottom-right';
+  let maxVisible = 3;
+  let enableAnimations = true;
+
+  // Reactive statement to update configuration
+  $: {
+    toastService.configure({
+      position,
+      maxVisibleStackToasts: maxVisible,
+      enableBorderAnimation: enableAnimations,
+      enableFillAnimation: enableAnimations
+    });
+  }
+
+  // Reactive toast based on data changes
+  let userData = {};
+  $: if (userData.name) {
+    toastService.info(`Welcome, ${userData.name}!`);
+  }
+&lt;/script&gt;
+
+&lt;select bind:value={position}&gt;
+  &lt;option value="top-left"&gt;Top Left&lt;/option&gt;
+  &lt;option value="top-right"&gt;Top Right&lt;/option&gt;
+  &lt;option value="bottom-left"&gt;Bottom Left&lt;/option&gt;
+  &lt;option value="bottom-right"&gt;Bottom Right&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;input type="range" bind:value={maxVisible} min="1" max="5"&gt;
+&lt;label&gt;Max Visible: {maxVisible}&lt;/label&gt;
+
+&lt;input type="checkbox" bind:checked={enableAnimations}&gt;
+&lt;label&gt;Enable Animations&lt;/label&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>📝 Form Integration</h2>
+            <h3>Two-way binding with validation</h3>
+            <pre class="code-block"><code class="language-javascript">&lt;script&gt;
+  import { toastService } from '../stores/toast.js';
+
+  let formData = {
+    email: '',
+    password: '',
+    confirmPassword: ''
+  };
+
+  let errors = {};
+
+  // Reactive validation
+  $: {
+    errors = {};
+    
+    if (formData.email && !isValidEmail(formData.email)) {
+      errors.email = 'Invalid email format';
+    }
+    
+    if (formData.password && formData.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    }
+    
+    if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+  }
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  async function handleSubmit() {
+    // Show validation errors as toasts
+    if (Object.keys(errors).length > 0) {
+      Object.values(errors).forEach(error => {
+        toastService.error(error);
+      });
+      return;
+    }
+
+    try {
+      await submitForm(formData);
+      toastService.success('Account created successfully!', {
+        autoDismiss: 5000
+      });
+      
+      // Reset form
+      formData = { email: '', password: '', confirmPassword: '' };
+    } catch (error) {
+      toastService.error('Failed to create account');
+    }
+  }
+&lt;/script&gt;
+
+&lt;form on:submit|preventDefault={handleSubmit}&gt;
+  &lt;input 
+    type="email" 
+    bind:value={formData.email} 
+    placeholder="Email"
+    class:error={errors.email}
+  &gt;
+  
+  &lt;input 
+    type="password" 
+    bind:value={formData.password} 
+    placeholder="Password"
+    class:error={errors.password}
+  &gt;
+  
+  &lt;input 
+    type="password" 
+    bind:value={formData.confirmPassword} 
+    placeholder="Confirm Password"
+    class:error={errors.confirmPassword}
+  &gt;
+  
+  &lt;button type="submit" disabled={Object.keys(errors).length > 0}&gt;
+    Create Account
+  &lt;/button&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Real-world Examples</h2>
+            
+            <h3>API Integration with Loading States</h3>
+            <pre class="code-block"><code class="language-javascript">&lt;script&gt;
+  import { toastService } from '../stores/toast.js';
+  import { onMount } from 'svelte';
+
+  let loading = false;
+  let data = null;
+  let error = null;
+
+  async function fetchData() {
+    loading = true;
+    error = null;
+    
+    const loadingToastId = toastService.info('Loading data...', {
+      autoDismiss: 0
+    });
+
+    try {
+      const response = await fetch('/api/data');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      data = await response.json();
+      
+      toastService.dismiss(loadingToastId);
+      toastService.success('Data loaded successfully!');
+      
+    } catch (err) {
+      error = err.message;
+      toastService.dismiss(loadingToastId);
+      
+      if (err.message.includes('404')) {
+        toastService.error('Data not found');
+      } else if (err.message.includes('500')) {
+        toastService.error('Server error. Please try again.');
+      } else {
+        toastService.error('Network error occurred');
+      }
+    } finally {
+      loading = false;
+    }
+  }
+
+  // Auto-fetch on mount
+  onMount(fetchData);
+&lt;/script&gt;
+
+&lt;button on:click={fetchData} disabled={loading}&gt;
+  {loading ? 'Loading...' : 'Refresh Data'}
+&lt;/button&gt;
+
+{#if data}
+  &lt;div&gt;Data loaded: {JSON.stringify(data)}&lt;/div&gt;
+{/if}</code></pre>
+            
+            <h3>User Actions with Feedback</h3>
+            <pre class="code-block"><code class="language-javascript">&lt;script&gt;
+  import { toastService } from '../stores/toast.js';
+
+  let liked = false;
+  let bookmarked = false;
+
+  function toggleLike() {
+    liked = !liked;
+    
+    if (liked) {
+      toastService.success('❤️ Added to favorites!', {
+        autoDismiss: 2000
+      });
+    } else {
+      toastService.info('💔 Removed from favorites', {
+        autoDismiss: 2000
+      });
+    }
+  }
+
+  function toggleBookmark() {
+    bookmarked = !bookmarked;
+    
+    if (bookmarked) {
+      toastService.info('🔖 Bookmarked!', {
+        autoDismiss: 2000
+      });
+    } else {
+      toastService.info('📖 Bookmark removed', {
+        autoDismiss: 2000
+      });
+    }
+  }
+
+  async function shareContent() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toastService.success('🔗 Link copied to clipboard!');
+    } catch (error) {
+      toastService.error('Failed to copy link');
+    }
+  }
+&lt;/script&gt;
+
+&lt;button on:click={toggleLike} class:liked&gt;
+  {liked ? '❤️' : '🤍'} Like
+&lt;/button&gt;
+
+&lt;button on:click={toggleBookmark} class:bookmarked&gt;
+  {bookmarked ? '🔖' : '📖'} Bookmark
+&lt;/button&gt;
+
+&lt;button on:click={shareContent}&gt;
+  🔗 Share
+&lt;/button&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎭 Custom Toast Component</h2>
+            <pre class="code-block"><code class="language-html">&lt;!-- ToastTrigger.svelte --&gt;
+&lt;script&gt;
+  import { toastService } from '../stores/toast.js';
+
+  export let type = 'info';
+  export let message = '';
+  export let label = 'Show Toast';
+  export let options = {};
+  export let disabled = false;
+
+  function triggerToast() {
+    const toastMessage = message || `${type} toast triggered!`;
+    toastService[type](toastMessage, options);
+  }
+&lt;/script&gt;
+
+&lt;button 
+  class="btn btn-{type}" 
+  on:click={triggerToast}
+  {disabled}
+&gt;
+  {label}
+&lt;/button&gt;
+
+&lt;style&gt;
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+  }
+
+  .btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-success { background: #10b981; }
+  .btn-error { background: #ef4444; }
+  .btn-info { background: #3b82f6; }
+  .btn-warning { background: #f59e0b; }
+&lt;/style&gt;</code></pre>
+            
+            <h3>Usage in other components</h3>
+            <pre class="code-block"><code class="language-javascript">&lt;script&gt;
+  import ToastTrigger from './ToastTrigger.svelte';
+&lt;/script&gt;
+
+&lt;ToastTrigger 
+  type="success"
+  message="Operation completed successfully!"
+  label="Complete Task"
+  options={{ autoDismiss: 3000 }}
+/&gt;
+
+&lt;ToastTrigger 
+  type="error"
+  message="Something went wrong!"
+  label="Trigger Error"
+/&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Advanced Configuration</h2>
+            <pre class="code-block"><code class="language-javascript">&lt;!-- App.svelte --&gt;
+&lt;script&gt;
+  import { onMount } from 'svelte';
+  import { toastService } from './stores/toast.js';
+
+  onMount(() => {
+    // Configure toast globally
+    toastService.configure({
+      position: 'top-right',
+      maxVisibleStackToasts: 4,
+      defaultDuration: 4000,
+      enableBorderAnimation: true,
+      enableFillAnimation: true,
+      pauseBackgroundToastsOnHover: true,
+      customCSS: `
+        .toast-container {
+          z-index: 9999;
+        }
+        .toast-svelte {
+          border-left: 4px solid #ff3e00;
+        }
+      `
+    });
+  });
+&lt;/script&gt;
+
+&lt;main&gt;
+  &lt;!-- Your app content --&gt;
+&lt;/main&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>📱 TypeScript Support</h2>
+            <pre class="code-block"><code class="language-typescript">// stores/toast.ts
+import { writable, type Writable } from 'svelte/store';
+import toast, { type ToastOptions, type ToastType } from 'modern-toasts';
+
+interface CustomToastOptions extends ToastOptions {
+  userId?: string;
+  component?: string;
+}
+
+interface ToastState {
+  id: string;
+  type: ToastType;
+  message: string;
+  timestamp: number;
+}
+
+export const activeToasts: Writable&lt;ToastState[]&gt; = writable([]);
+
+export const toastService = {
+  success: (message: string, options?: CustomToastOptions): string => {
+    const id = toast.success(message, options);
+    activeToasts.update(toasts => [...toasts, {
+      id, type: 'success', message, timestamp: Date.now()
+    }]);
+    return id;
+  },
+
+  // ... other typed methods
+};</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 Useful Links</h2>
+            <div class="button-grid">
+                <a href="https://www.npmjs.com/package/modern-toasts" class="btn btn-info" style="text-decoration: none; text-align: center;">📦 NPM Package</a>
+                <a href="https://github.com/sukarth/ModernToasts" class="btn btn-secondary" style="text-decoration: none; text-align: center;">📚 Documentation</a>
+                <a href="../playground/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🎮 Interactive Playground</a>
+                <a href="../vue/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🟢 Vue Example</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include ModernToasts from CDN -->
+    <script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js"></script>
+    
+    <!-- Include Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    
+    <script>
+        // Initialize Highlight.js
+        hljs.highlightAll();
+        
+        // Get toast instance from global
+        const { toast } = window.ModernToasts;
+        
+        // Configure for demo
+        toast.configure({
+            position: 'bottom-right',
+            maxVisibleStackToasts: 3,
+            enableBorderAnimation: true,
+            enableFillAnimation: true
+        });
+        
+        // Demo functions
+        function showSuccess() {
+            toast.success('🔥 Svelte reactivity is amazing!');
+        }
+        
+        function showError() {
+            toast.error('❌ Svelte component error occurred!');
+        }
+        
+        function showInfo() {
+            toast.info('ℹ️ Svelte store updated successfully.');
+        }
+        
+        function showWarning() {
+            toast.warning('⚠️ Svelte reactive statement triggered.');
+        }
+        
+        function showSvelteExample() {
+            toast.success('🔥 Powered by Svelte stores!', {
+                backgroundColor: '#ff3e00',
+                textColor: '#ffffff',
+                borderColor: '#ff8a00'
+            });
+        }
+        
+        function showReactiveExample() {
+            toast.info('⚡ Reactive statement executed!', {
+                autoDismiss: 3000
+            });
+        }
+        
+        function showFormExample() {
+            toast.error('📝 Form validation: Two-way binding active');
+        }
+        
+        function dismissAll() {
+            toast.dismissAll();
+        }
+        
+        // Show welcome toast
+        setTimeout(() => {
+            toast.success('🎉 Welcome to ModernToasts Svelte integration!');
+        }, 500);
+    </script>
+</body>
+</html>

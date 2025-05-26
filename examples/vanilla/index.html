@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts - Vanilla JavaScript Example</title>
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            color: #5a67d8;
+        }
+        
+        .demo-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: white;
+        }
+        
+        .btn-success { background: #10b981; }
+        .btn-error { background: #ef4444; }
+        .btn-info { background: #3b82f6; }
+        .btn-warning { background: #f59e0b; }
+        .btn-secondary { background: #6b7280; }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .feature-card {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .feature-card h4 {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Demo Home</a>
+        
+        <div class="header">
+            <h1>🍦 ModernToasts + Vanilla JS</h1>
+            <p>Pure vanilla JavaScript integration using CDN - no build process required!</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Live Demo</h2>
+            <div class="demo-section">
+                <p>Try the vanilla JavaScript integration in action:</p>
+                <div class="button-grid">
+                    <button class="btn btn-success" onclick="showSuccess()">✅ Success Toast</button>
+                    <button class="btn btn-error" onclick="showError()">❌ Error Toast</button>
+                    <button class="btn btn-info" onclick="showInfo()">ℹ️ Info Toast</button>
+                    <button class="btn btn-warning" onclick="showWarning()">⚠️ Warning Toast</button>
+                </div>
+                <div class="button-grid">
+                    <button class="btn btn-secondary" onclick="showCustomToast()">🎨 Custom Styled</button>
+                    <button class="btn btn-secondary" onclick="showPersistentToast()">📌 Persistent Toast</button>
+                    <button class="btn btn-secondary" onclick="showPositionDemo()">📍 Position Demo</button>
+                    <button class="btn btn-secondary" onclick="dismissAll()">🗑️ Dismiss All</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📦 CDN Installation</h2>
+            <h3>Include via CDN (Recommended)</h3>
+            <pre class="code-block"><code class="language-html">&lt;script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js">&lt;/script></code></pre>
+            
+            <h3>Alternative CDN Options</h3>
+            <pre class="code-block"><code class="language-html"><!-- Specific version -->
+&lt;script src="https://unpkg.com/modern-toasts@1.1.0/dist/modern-toasts.min.js">&lt;/script>
+
+<!-- Via jsDelivr -->
+&lt;script src="https://cdn.jsdelivr.net/npm/modern-toasts@latest/dist/modern-toasts.min.js">&lt;/script></code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Basic Usage</h2>
+            <h3>Simple Implementation</h3>
+            <pre class="code-block"><code class="language-html">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+    &lt;title>My App&lt;/title>
+&lt;/head>
+&lt;body>
+    &lt;button onclick="showToast()">Show Toast&lt;/button>
+    
+    &lt;script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js">&lt;/script>
+    &lt;script>
+        // Get toast instance from global
+        const { toast } = window.ModernToasts;
+        
+        function showToast() {
+            toast.success('Hello from vanilla JavaScript!');
+        }
+    &lt;/script>
+&lt;/body>
+&lt;/html></code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Configuration</h2>
+            <h3>Global Configuration</h3>
+            <pre class="code-block"><code class="language-javascript">const { toast } = window.ModernToasts;
+
+// Configure globally
+toast.configure({
+    position: 'bottom-right',
+    maxVisibleStackToasts: 3,
+    defaultDuration: 4000,
+    enableBorderAnimation: true,
+    enableFillAnimation: true,
+    pauseBackgroundToastsOnHover: true,
+    animationDirection: 'left-to-right'
+});</code></pre>
+            
+            <h3>Per-Toast Options</h3>
+            <pre class="code-block"><code class="language-javascript">// Custom options for individual toasts
+toast.success('Custom toast!', {
+    autoDismiss: 5000,
+    backgroundColor: '#1f2937',
+    textColor: '#f9fafb',
+    borderColor: '#10b981',
+    icon: '🚀',
+    className: 'my-custom-toast'
+});</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎨 Styling Examples</h2>
+            
+            <h3>Custom Colors</h3>
+            <pre class="code-block"><code class="language-javascript">// Dark theme toast
+toast.info('Dark theme message', {
+    backgroundColor: '#1f2937',
+    textColor: '#f9fafb',
+    borderColor: '#3b82f6'
+});
+
+// Brand colors
+toast.success('Brand success!', {
+    backgroundColor: '#10b981',
+    textColor: '#ffffff',
+    borderColor: '#059669'
+});</code></pre>
+            
+            <h3>Custom CSS Classes</h3>
+            <pre class="code-block"><code class="language-javascript">// Add custom CSS
+const customCSS = `
+    .my-custom-toast {
+        border-radius: 20px;
+        font-weight: bold;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+`;
+
+toast.configure({ customCSS });
+
+// Use custom class
+toast.success('Styled toast!', {
+    className: 'my-custom-toast'
+});</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Real-world Examples</h2>
+            
+            <h3>Form Validation</h3>
+            <pre class="code-block"><code class="language-javascript">function validateForm() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    if (!email) {
+        toast.error('Email is required');
+        return false;
+    }
+    
+    if (!email.includes('@')) {
+        toast.error('Please enter a valid email address');
+        return false;
+    }
+    
+    if (password.length < 8) {
+        toast.warning('Password should be at least 8 characters');
+        return false;
+    }
+    
+    toast.success('Form validation passed!');
+    return true;
+}</code></pre>
+            
+            <h3>API Requests</h3>
+            <pre class="code-block"><code class="language-javascript">async function fetchData() {
+    // Show loading toast
+    const loadingId = toast.info('Loading data...', { autoDismiss: 0 });
+    
+    try {
+        const response = await fetch('/api/data');
+        
+        // Dismiss loading toast
+        toast.dismiss(loadingId);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        toast.success('Data loaded successfully!');
+        return data;
+        
+    } catch (error) {
+        toast.dismiss(loadingId);
+        
+        if (error.message.includes('404')) {
+            toast.error('Data not found');
+        } else if (error.message.includes('500')) {
+            toast.error('Server error. Please try again.');
+        } else {
+            toast.error('Network error. Check your connection.');
+        }
+    }
+}</code></pre>
+            
+            <h3>User Interactions</h3>
+            <pre class="code-block"><code class="language-javascript">// Copy to clipboard
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        toast.success('📋 Copied to clipboard!');
+    }).catch(() => {
+        toast.error('Failed to copy to clipboard');
+    });
+}
+
+// Save data
+function saveData() {
+    // Simulate save
+    setTimeout(() => {
+        toast.success('💾 Data saved successfully!', {
+            autoDismiss: 3000
+        });
+    }, 1000);
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🚀 Zero Dependencies</h4>
+                    <p>No external libraries required. Just include the script and start using.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📦 Lightweight</h4>
+                    <p>Only ~8KB minified + gzipped. Won't slow down your application.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎨 Fully Customizable</h4>
+                    <p>Colors, animations, positions, and styling can all be customized.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📱 Responsive</h4>
+                    <p>Works perfectly on desktop, tablet, and mobile devices.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>♿ Accessible</h4>
+                    <p>ARIA support, keyboard navigation, and screen reader friendly.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔧 Easy Integration</h4>
+                    <p>Works with any website or web application. No build process needed.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 Useful Links</h2>
+            <div class="button-grid">
+                <a href="https://www.npmjs.com/package/modern-toasts" class="btn btn-info" style="text-decoration: none; text-align: center;">📦 NPM Package</a>
+                <a href="https://github.com/sukarth/ModernToasts" class="btn btn-secondary" style="text-decoration: none; text-align: center;">📚 Documentation</a>
+                <a href="../playground/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🎮 Interactive Playground</a>
+                <a href="../react/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">⚛️ React Example</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include ModernToasts from CDN -->
+    <script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js"></script>
+    
+    <!-- Include Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    
+    <script>
+        // Initialize Highlight.js
+        hljs.highlightAll();
+        
+        // Get toast instance from global
+        const { toast } = window.ModernToasts;
+        
+        // Configure for demo
+        toast.configure({
+            position: 'bottom-right',
+            maxVisibleStackToasts: 3,
+            enableBorderAnimation: true,
+            enableFillAnimation: true
+        });
+        
+        // Demo functions
+        function showSuccess() {
+            toast.success('🍦 Vanilla JavaScript integration working perfectly!');
+        }
+        
+        function showError() {
+            toast.error('❌ Something went wrong! No frameworks needed to handle this.');
+        }
+        
+        function showInfo() {
+            toast.info('ℹ️ Pure vanilla JS - no build process, no dependencies!');
+        }
+        
+        function showWarning() {
+            toast.warning('⚠️ Remember to include the CDN script in your HTML!');
+        }
+        
+        function showCustomToast() {
+            toast.success('🎨 Custom styled toast with dark theme!', {
+                backgroundColor: '#1f2937',
+                textColor: '#f9fafb',
+                borderColor: '#10b981',
+                icon: '✨'
+            });
+        }
+        
+        function showPersistentToast() {
+            toast.warning('📌 This toast won\'t auto-dismiss. Click the X to close it!', {
+                autoDismiss: 0,
+                showCloseButton: true
+            });
+        }
+        
+        function showPositionDemo() {
+            const positions = ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right'];
+            const randomPosition = positions[Math.floor(Math.random() * positions.length)];
+            
+            toast.configure({ position: randomPosition });
+            toast.info(`📍 Toast positioned at: ${randomPosition}`);
+            
+            // Reset to default after 3 seconds
+            setTimeout(() => {
+                toast.configure({ position: 'bottom-right' });
+            }, 3000);
+        }
+        
+        function dismissAll() {
+            toast.dismissAll();
+        }
+        
+        // Show welcome toast
+        setTimeout(() => {
+            toast.success('🎉 Welcome to ModernToasts vanilla JavaScript integration!');
+        }, 500);
+    </script>
+</body>
+</html>

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernToasts - Angular Example</title>
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #dd0031 0%, #c3002f 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #dd0031;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            color: #c3002f;
+        }
+        
+        .demo-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: white;
+        }
+        
+        .btn-success { background: #10b981; }
+        .btn-error { background: #ef4444; }
+        .btn-info { background: #3b82f6; }
+        .btn-warning { background: #f59e0b; }
+        .btn-secondary { background: #6b7280; }
+        .btn-angular { background: #dd0031; }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Demo Home</a>
+        
+        <div class="header">
+            <h1>🅰️ ModernToasts + Angular</h1>
+            <p>Complete Angular integration with services and dependency injection</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Live Demo</h2>
+            <div class="demo-section">
+                <p>Try the Angular integration in action:</p>
+                <div class="button-grid">
+                    <button class="btn btn-success" onclick="showSuccess()">✅ Success Toast</button>
+                    <button class="btn btn-error" onclick="showError()">❌ Error Toast</button>
+                    <button class="btn btn-info" onclick="showInfo()">ℹ️ Info Toast</button>
+                    <button class="btn btn-warning" onclick="showWarning()">⚠️ Warning Toast</button>
+                </div>
+                <div class="button-grid">
+                    <button class="btn btn-angular" onclick="showAngularExample()">🅰️ Angular Service</button>
+                    <button class="btn btn-secondary" onclick="showHttpError()">🌐 HTTP Error</button>
+                    <button class="btn btn-secondary" onclick="showFormValidation()">📝 Form Validation</button>
+                    <button class="btn btn-secondary" onclick="dismissAll()">🗑️ Dismiss All</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📦 Installation</h2>
+            <pre class="code-block"><code class="language-bash">npm install modern-toasts</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Basic Usage</h2>
+            <h3>Simple Import and Use</h3>
+            <pre class="code-block"><code class="language-typescript">import toast from 'modern-toasts';
+
+@Component({
+  selector: 'app-example',
+  template: `
+    &lt;button (click)="showToast()"&gt;Show Toast&lt;/button&gt;
+  `
+})
+export class ExampleComponent {
+  showToast() {
+    toast.success('Hello from Angular!');
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔧 Toast Service</h2>
+            <h3>Create an Angular service</h3>
+            <pre class="code-block"><code class="language-typescript">// services/toast.service.ts
+import { Injectable } from '@angular/core';
+import toast from 'modern-toasts';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ToastService {
+  
+  constructor() {
+    // Configure toast on service initialization
+    toast.configure({
+      position: 'bottom-right',
+      maxVisibleStackToasts: 3,
+      enableBorderAnimation: true,
+      enableFillAnimation: true,
+      pauseBackgroundToastsOnHover: true
+    });
+  }
+
+  success(message: string, options?: any): string {
+    return toast.success(message, options);
+  }
+
+  error(message: string, options?: any): string {
+    return toast.error(message, options);
+  }
+
+  info(message: string, options?: any): string {
+    return toast.info(message, options);
+  }
+
+  warning(message: string, options?: any): string {
+    return toast.warning(message, options);
+  }
+
+  dismiss(id: string): void {
+    toast.dismiss(id);
+  }
+
+  dismissAll(): void {
+    toast.dismissAll();
+  }
+
+  configure(config: any): void {
+    toast.configure(config);
+  }
+
+  // Event listeners
+  on(event: string, callback: Function): void {
+    toast.on(event, callback);
+  }
+
+  off(event: string, callback: Function): void {
+    toast.off(event, callback);
+  }
+}</code></pre>
+            
+            <h3>Use in components</h3>
+            <pre class="code-block"><code class="language-typescript">import { Component } from '@angular/core';
+import { ToastService } from './services/toast.service';
+
+@Component({
+  selector: 'app-user-profile',
+  template: `
+    &lt;button (click)="saveProfile()"&gt;Save Profile&lt;/button&gt;
+  `
+})
+export class UserProfileComponent {
+  
+  constructor(private toastService: ToastService) {}
+
+  async saveProfile() {
+    try {
+      await this.userService.saveProfile();
+      this.toastService.success('Profile saved successfully!');
+    } catch (error) {
+      this.toastService.error('Failed to save profile');
+    }
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🌐 HTTP Interceptor Integration</h2>
+            <h3>Global HTTP error handling</h3>
+            <pre class="code-block"><code class="language-typescript">// interceptors/toast-error.interceptor.ts
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { ToastService } from '../services/toast.service';
+
+@Injectable()
+export class ToastErrorInterceptor implements HttpInterceptor {
+
+  constructor(private toastService: ToastService) {}
+
+  intercept(req: HttpRequest&lt;any&gt;, next: HttpHandler) {
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = 'An error occurred';
+
+        switch (error.status) {
+          case 400:
+            errorMessage = 'Bad request. Please check your input.';
+            break;
+          case 401:
+            errorMessage = 'Unauthorized. Please log in again.';
+            break;
+          case 403:
+            errorMessage = 'Access forbidden.';
+            break;
+          case 404:
+            errorMessage = 'Resource not found.';
+            break;
+          case 500:
+            errorMessage = 'Server error. Please try again later.';
+            break;
+          default:
+            errorMessage = error.error?.message || 'Network error occurred.';
+        }
+
+        this.toastService.error(errorMessage, {
+          autoDismiss: 5000
+        });
+
+        return throwError(error);
+      })
+    );
+  }
+}</code></pre>
+            
+            <h3>Register the interceptor</h3>
+            <pre class="code-block"><code class="language-typescript">// app.module.ts
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ToastErrorInterceptor } from './interceptors/toast-error.interceptor';
+
+@NgModule({
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ToastErrorInterceptor,
+      multi: true
+    }
+  ]
+})
+export class AppModule {}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>📝 Form Validation Integration</h2>
+            <h3>Reactive forms with toast feedback</h3>
+            <pre class="code-block"><code class="language-typescript">import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastService } from './services/toast.service';
+
+@Component({
+  selector: 'app-contact-form',
+  template: `
+    &lt;form [formGroup]="contactForm" (ngSubmit)="onSubmit()"&gt;
+      &lt;input formControlName="email" placeholder="Email"&gt;
+      &lt;textarea formControlName="message" placeholder="Message"&gt;&lt;/textarea&gt;
+      &lt;button type="submit" [disabled]="contactForm.invalid"&gt;
+        Submit
+      &lt;/button&gt;
+    &lt;/form&gt;
+  `
+})
+export class ContactFormComponent {
+  contactForm: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private toastService: ToastService
+  ) {
+    this.contactForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      message: ['', [Validators.required, Validators.minLength(10)]]
+    });
+  }
+
+  onSubmit() {
+    if (this.contactForm.invalid) {
+      this.showValidationErrors();
+      return;
+    }
+
+    this.submitForm();
+  }
+
+  private showValidationErrors() {
+    const controls = this.contactForm.controls;
+
+    if (controls['email'].errors?.['required']) {
+      this.toastService.error('Email is required');
+    } else if (controls['email'].errors?.['email']) {
+      this.toastService.error('Please enter a valid email');
+    }
+
+    if (controls['message'].errors?.['required']) {
+      this.toastService.error('Message is required');
+    } else if (controls['message'].errors?.['minlength']) {
+      this.toastService.error('Message must be at least 10 characters');
+    }
+  }
+
+  private async submitForm() {
+    try {
+      await this.contactService.submit(this.contactForm.value);
+      this.toastService.success('Message sent successfully!', {
+        autoDismiss: 5000
+      });
+      this.contactForm.reset();
+    } catch (error) {
+      this.toastService.error('Failed to send message');
+    }
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Real-world Examples</h2>
+            
+            <h3>Data Service with Loading States</h3>
+            <pre class="code-block"><code class="language-typescript">import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ToastService } from './toast.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  private loadingSubject = new BehaviorSubject&lt;boolean&gt;(false);
+  public loading$ = this.loadingSubject.asObservable();
+
+  constructor(
+    private http: HttpClient,
+    private toastService: ToastService
+  ) {}
+
+  async fetchData(): Promise&lt;any&gt; {
+    this.loadingSubject.next(true);
+    
+    const loadingToastId = this.toastService.info('Loading data...', {
+      autoDismiss: 0
+    });
+
+    try {
+      const data = await this.http.get('/api/data').toPromise();
+      
+      this.toastService.dismiss(loadingToastId);
+      this.toastService.success('Data loaded successfully!');
+      
+      return data;
+    } catch (error) {
+      this.toastService.dismiss(loadingToastId);
+      throw error; // Let interceptor handle the error toast
+    } finally {
+      this.loadingSubject.next(false);
+    }
+  }
+}</code></pre>
+            
+            <h3>Route Guard with Toast Notifications</h3>
+            <pre class="code-block"><code class="language-typescript">import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+import { ToastService } from './toast.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastService: ToastService
+  ) {}
+
+  canActivate(): boolean {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    }
+
+    this.toastService.warning('Please log in to access this page', {
+      autoDismiss: 4000
+    });
+    
+    this.router.navigate(['/login']);
+    return false;
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🎭 Custom Toast Component</h2>
+            <pre class="code-block"><code class="language-typescript">// components/toast-trigger.component.ts
+import { Component, Input } from '@angular/core';
+import { ToastService } from '../services/toast.service';
+
+@Component({
+  selector: 'app-toast-trigger',
+  template: `
+    &lt;button 
+      [class]="buttonClass" 
+      (click)="triggerToast()"
+      [disabled]="disabled"
+    &gt;
+      {{ label }}
+    &lt;/button&gt;
+  `
+})
+export class ToastTriggerComponent {
+  @Input() type: 'success' | 'error' | 'info' | 'warning' = 'info';
+  @Input() message: string = '';
+  @Input() label: string = 'Show Toast';
+  @Input() disabled: boolean = false;
+  @Input() options: any = {};
+
+  constructor(private toastService: ToastService) {}
+
+  get buttonClass(): string {
+    return `btn btn-${this.type}`;
+  }
+
+  triggerToast(): void {
+    const toastMessage = this.message || `${this.type} toast triggered!`;
+    this.toastService[this.type](toastMessage, this.options);
+  }
+}</code></pre>
+            
+            <h3>Usage in templates</h3>
+            <pre class="code-block"><code class="language-html">&lt;app-toast-trigger
+  type="success"
+  message="Operation completed successfully!"
+  label="Complete Task"
+  [options]="{ autoDismiss: 3000 }"&gt;
+&lt;/app-toast-trigger&gt;
+
+&lt;app-toast-trigger
+  type="error"
+  message="Something went wrong!"
+  label="Trigger Error"&gt;
+&lt;/app-toast-trigger&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Advanced Configuration</h2>
+            <pre class="code-block"><code class="language-typescript">// app.component.ts
+import { Component, OnInit } from '@angular/core';
+import { ToastService } from './services/toast.service';
+
+@Component({
+  selector: 'app-root',
+  template: `&lt;router-outlet&gt;&lt;/router-outlet&gt;`
+})
+export class AppComponent implements OnInit {
+
+  constructor(private toastService: ToastService) {}
+
+  ngOnInit() {
+    // Configure toast globally
+    this.toastService.configure({
+      position: 'top-right',
+      maxVisibleStackToasts: 4,
+      defaultDuration: 4000,
+      enableBorderAnimation: true,
+      enableFillAnimation: true,
+      pauseBackgroundToastsOnHover: true,
+      customCSS: `
+        .toast-container {
+          z-index: 9999;
+        }
+        .toast-angular {
+          border-left: 4px solid #dd0031;
+        }
+      `
+    });
+
+    // Listen to toast events
+    this.toastService.on('show', (toastData) => {
+      console.log('Toast shown:', toastData);
+    });
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>📱 TypeScript Interfaces</h2>
+            <pre class="code-block"><code class="language-typescript">// interfaces/toast.interface.ts
+export interface CustomToastOptions {
+  autoDismiss?: number;
+  backgroundColor?: string;
+  textColor?: string;
+  borderColor?: string;
+  showCloseButton?: boolean;
+  pauseOnHover?: boolean;
+  className?: string;
+  icon?: string;
+  animationDirection?: 'left-to-right' | 'right-to-left' | 'top-to-bottom' | 'bottom-to-top';
+  userId?: string;
+  component?: string;
+}
+
+export interface ToastResponse {
+  id: string;
+  success: boolean;
+}</code></pre>
+            
+            <h3>Typed service methods</h3>
+            <pre class="code-block"><code class="language-typescript">// Enhanced service with types
+import { CustomToastOptions, ToastResponse } from '../interfaces/toast.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TypedToastService {
+  
+  success(message: string, options?: CustomToastOptions): string {
+    return toast.success(message, options);
+  }
+
+  error(message: string, options?: CustomToastOptions): string {
+    return toast.error(message, options);
+  }
+
+  // Async toast with promise
+  async showWithConfirmation(
+    message: string, 
+    type: 'success' | 'error' | 'info' | 'warning' = 'info'
+  ): Promise&lt;ToastResponse&gt; {
+    const id = toast[type](message, { autoDismiss: 0 });
+    
+    return new Promise((resolve) => {
+      const handleDismiss = () => {
+        toast.off('dismiss', handleDismiss);
+        resolve({ id, success: true });
+      };
+      
+      toast.on('dismiss', handleDismiss);
+    });
+  }
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 Useful Links</h2>
+            <div class="button-grid">
+                <a href="https://www.npmjs.com/package/modern-toasts" class="btn btn-info" style="text-decoration: none; text-align: center;">📦 NPM Package</a>
+                <a href="https://github.com/sukarth/ModernToasts" class="btn btn-secondary" style="text-decoration: none; text-align: center;">📚 Documentation</a>
+                <a href="../playground/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">🎮 Interactive Playground</a>
+                <a href="../react/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">⚛️ React Example</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include ModernToasts from CDN -->
+    <script src="https://unpkg.com/modern-toasts@latest/dist/modern-toasts.min.js"></script>
+    
+    <!-- Include Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    
+    <script>
+        // Initialize Highlight.js
+        hljs.highlightAll();
+        
+        // Get toast instance from global
+        const { toast } = window.ModernToasts;
+        
+        // Configure for demo
+        toast.configure({
+            position: 'bottom-right',
+            maxVisibleStackToasts: 3,
+            enableBorderAnimation: true,
+            enableFillAnimation: true
+        });
+        
+        // Demo functions
+        function showSuccess() {
+            toast.success('🅰️ Angular service integration working!');
+        }
+        
+        function showError() {
+            toast.error('❌ Angular HTTP error intercepted!');
+        }
+        
+        function showInfo() {
+            toast.info('ℹ️ Angular dependency injection successful.');
+        }
+        
+        function showWarning() {
+            toast.warning('⚠️ Angular route guard activated.');
+        }
+        
+        function showAngularExample() {
+            toast.success('🅰️ Powered by Angular services!', {
+                backgroundColor: '#dd0031',
+                textColor: '#ffffff',
+                borderColor: '#c3002f'
+            });
+        }
+        
+        function showHttpError() {
+            toast.error('🌐 HTTP 404: Resource not found', {
+                autoDismiss: 5000
+            });
+        }
+        
+        function showFormValidation() {
+            toast.error('📝 Form validation: Email field is required');
+        }
+        
+        function dismissAll() {
+            toast.dismissAll();
+        }
+        
+        // Show welcome toast
+        setTimeout(() => {
+            toast.success('🎉 Welcome to ModernToasts Angular integration!');
+        }, 500);
+    </script>
+</body>
+</html>
